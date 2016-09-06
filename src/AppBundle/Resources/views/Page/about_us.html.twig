@@ -1,0 +1,29 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'about_us'}) }}
+{% endblock %}
+
+{% block content %}
+    <div class="about">
+        <div class="about-text">
+                <h3>{{'common.about_us' | trans }}</h3>
+        </div>	
+        
+        <div class="about-info">
+            <h4>{{ 'text.about_us_page.our_dream' | trans }}</h4>
+            <p>{{ 'text.about_us_page.our_dream_text' | trans}}</p>
+            <div class="col-md-5 about-info-left">
+                    <img src="{{ asset('images/books.jpg') }}" alt=""/>
+            </div>
+            <div class="col-md-7 about-info-right">
+                    <h4> {{ 'text.about_us_page.be_with_us' | trans}}</h4>
+                    <p>{{ 'text.about_us_page.be_with_us_text' | trans}}</p>
+            </div>
+            
+            <div class="clearfix"> </div>
+            
+        </div>
+       
+    </div>
+{% endblock %}

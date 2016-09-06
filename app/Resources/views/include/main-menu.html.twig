@@ -1,0 +1,26 @@
+<div class="header-nav">
+    <nav class="navbar navbar-default">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand visible-lg-inline-block visible-xs-inline-block" href="{{ path('home_page')}}"><span>Н</span>а <span>Т</span>учке</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+            {% block menu %}
+                {{ include('::menus/main_menu.html.twig') }}
+            {% endblock %}
+
+            {% block auth %}
+               {{ include('::include/auth.html.twig') }}
+            {% endblock %}
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</div>
+

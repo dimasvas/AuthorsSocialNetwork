@@ -1,0 +1,57 @@
+{% if app.user.imageName is empty  %}
+    {% set user_profile_image =  default_user_profile  %}
+{% else %}
+    {% set user_profile_image =  vich_uploader_asset(app.user, 'imageFile') %}
+{% endif %}
+<!-- Logo -->
+        <a href="index2.html" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><b>На тучке</b></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>На тучке</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="{{ user_profile_image }}" class="user-image" alt="User Image">
+                  <span class="hidden-xs">{{ app.user.username }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <img src="{{ user_profile_image }}" class="img-circle" alt="User Image">
+                    <p>
+                     {{ app.user.name }} {{ app.user.surname }}
+                      <small>{{ app.user.username }}</small>
+                    </p>
+                  </li>
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                        {% if app.user.isAuthor == true %}
+                            <a href="{{path('author_show', {id: app.user.id})}}" class="btn btn-default btn-flat">{{ 'admin.text.profile' | trans }}</a>
+                        {% else %}
+                            <a href="{{path('fos_user_profile_show')}}" class="btn btn-default btn-flat">{{ 'admin.text.profile' | trans }}</a>
+                        {% endif %}   
+                    </div>
+                    <div class="pull-right">
+                      <a href="{{ path('fos_user_security_logout') }}" class="btn btn-default btn-flat">{{ 'admin.text.logout' | trans }}</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!-- Control Sidebar Toggle Button -->
+              <li>
+                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+              </li>
+            </ul>
+          </div>
+        </nav>

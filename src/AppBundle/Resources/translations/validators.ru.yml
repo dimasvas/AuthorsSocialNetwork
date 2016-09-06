@@ -1,0 +1,14 @@
+composition:
+   title_required: "Название обязательно"
+   description_required: "Описание обязательно"
+   title_short: "Слишком короткое название"
+   title_long: "Слишком длинное название"
+   description_long: "Слишком длинное описание"
+   choose_lang: "Выберите язык"
+   choose_lang_from_list: "Выберите язык из списка"
+   choose_genre: "Выберите жанр"
+   choose_status: "Выберите статус"
+   choose_status_from_list: "Выберите статус из списка"
+   
+comment:
+    body_required: "Нет текста в сообщении"

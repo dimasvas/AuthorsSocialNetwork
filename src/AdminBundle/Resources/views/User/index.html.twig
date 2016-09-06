@@ -1,0 +1,61 @@
+{% extends 'AdminBundle:Basic:index.html.twig' %}
+
+ {% block stylesheets %}
+        {{ parent() }}
+        {% stylesheets filter='cssrewrite'
+        '@AdminBundle/Resources/public/vendors/plugins/datatables/dataTables.bootstrap.css'
+        output='admin-panel/compiled/users.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+    
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ ('admin.text.users_' ~ type) | trans }} <small>{{ 'admin.text.users_control' | trans }} </small></h1>
+
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-user"></i> {{ 'admin.text.users' | trans }}</a></li>
+        </ol>
+    </section>
+
+    <section class="content"> 
+        <div class="row">
+            <div class="col-xs-12 box">
+                <div class="box-body ">
+                    <table class="table table-hover table-responsive no-padding">
+                        <tbody>
+                            <tr>
+                                <th>{{ 'admin.text.id' | trans }}</th>
+                                <th>{{ 'admin.text.username' | trans }}</th>
+                                <th>{{ 'admin.text.user' | trans }}</th>
+                                <th>{{ 'admin.text.author' | trans }}</th>
+                                <th>{{ 'admin.text.registered' | trans }}</th>
+                            </tr>
+
+                            {% if pager.currentPageResults is empty %}
+                                <tr class="text-center"><td colspan="5">Ничего не найдено</td></tr>       
+                            {% endif %}
+                            
+                            {% for user in pager.currentPageResults %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td><a href="{{ path('admin-users-profile', {id: user.id})}}">{{ user.username }}</a></td>
+                                    <td>{{ user.surname }} {{ user.name }} </td>
+                                    <td>{{ user.isauthor ? "<i class='fa fa-check text-green'></i>" : ""}} </td>
+                                    <td>{{ user.created |date("m/d/Y") }} </td>
+                                </tr>    
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                    {% if pager.currentPageResults is not empty %}
+                        <div class="pull-right">{{ pagerfanta(pager, 'twitter_bootstrap3') }}</div>  
+                    {% endif %}
+                </div>
+            </div>
+        </div>    
+    </section>  
+{% endblock %}    
+
+ 

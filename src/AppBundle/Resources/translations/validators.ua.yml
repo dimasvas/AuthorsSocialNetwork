@@ -1,0 +1,15 @@
+composition:
+   title_required: "Назва обов'язкова"
+   description_required: "Опис обов'язковий"
+   title_short: "Занадто коротка назва"
+   title_long: "Занадто довга назва"
+   description_long: "Занадто довгий опис"
+   choose_lang: "Виберіть мову"
+   choose_lang_from_list: "Виберіть мову зі списку"
+   choose_genre: "Виберіть жанр"
+   choose_status: "Виберіть статус"
+   choose_status_from_list: "Виберіть статус зі списку"
+   
+comment:
+    body_required: "Немає тексту в повідомленні"
+

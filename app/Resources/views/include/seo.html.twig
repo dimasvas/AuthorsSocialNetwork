@@ -1,0 +1,39 @@
+{% if title is defined %}
+    {% set seo_title = ((page ~ '.title')  | trans({'%name%' : title, '%type%': type},'seo')) %}
+    {% set seo_description = ((page ~ '.description')  | trans({'%name%' : title, '%type%': type},'seo')) %}
+    {% set seo_keywords = ((page ~ '.keywords') | trans({'%name%' : title, '%type%': type},'seo')) %}
+{% else %}
+    {% set seo_title =  (page ~ '.title')  | trans({},'seo') %}
+    {% set seo_description =  (page ~ '.description')  | trans({},'seo') %}
+    {% set seo_keywords =  (page ~ '.keywords') | trans({},'seo') %}
+{% endif %}  
+
+{% set seo_site_name =  'common.site_name' | trans({},'seo') %}
+{% set seo_og_image =  app.request.getSchemeAndHttpHost() ~ '/images/og_image.png' %}
+
+    <title>{{ seo_title }}</title>
+
+{% block meta_tags %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Language" content="{{ app.request.locale }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="{{ seo_description }}" />
+    <meta name="Keywords" content="{{ seo_keywords }}" /> 
+{% endblock %}
+
+{% block og_tags %}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="{{ seo_site_name }}"/>
+    <meta property="og:image" content="{{ seo_og_image }}" />
+    <meta property="og:title" content="{{ seo_title }}" />
+{% endblock %}   
+
+{% block twitter_tags %}
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="{{ seo_site_name }}"/>
+    <meta name="twitter:image:src" content="{{ seo_og_image }}"/>
+    <meta name="twitter:domain" content="{{app.request.getSchemeAndHttpHost()}}"/>
+    <meta name="twitter:title" content="{{ seo_title }}">
+    <meta name="twitter:description" content="{{ seo_description }}"/>
+{% endblock %} 

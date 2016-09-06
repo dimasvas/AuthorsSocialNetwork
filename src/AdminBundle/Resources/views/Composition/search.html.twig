@@ -1,0 +1,80 @@
+{% extends 'AdminBundle:Basic:index.html.twig' %}
+
+ {% block stylesheets %}
+        {{ parent() }}
+        {% stylesheets filter='cssrewrite'
+        '@AdminBundle/Resources/public/vendors/plugins/datatables/dataTables.bootstrap.css'
+        output='admin-panel/compiled/users.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+{% endblock %}
+    
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ 'admin.text.search' | trans }} <small>{{ 'admin.text.search' | trans }} </small></h1>
+    </section>
+
+    <section class="content"> 
+        <div class="row">
+            <div class="col-xs-12 box">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ 'admin.text.compositions_search' | trans }}</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <span class="input-group-addon">ID</span>
+                                <input type="text" id="search-by-id" class="form-control" placeholder="{{ 'admin.text.id' | trans }}">
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                        <div class="col-lg-7">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input type="text" id="search-by-data" class="form-control" placeholder="{{ 'admin.text.title' | trans }}">
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                      </div>
+                    </div><!-- /.box-body -->
+                </div>
+                
+                <div class="box-header">
+                    <h3 class="box-title">{{ 'admin.text.search_result' | trans }}</h3>
+                </div>
+                
+                <div class="box-body">
+                    <table id="search" class="table table-bordered table-striped dataTable" role="grid" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>{{ 'admin.text.id' | trans }}</th>
+                                <th>{{ 'admin.text.title' | trans }}</th>
+                                <th>{{ 'admin.text.author' | trans }}</th>
+{#                                <th>{{ 'admin.text.genre' | trans }}</th>#}
+                                <th>{{ 'admin.text.status' | trans }}</th>
+                                <th>{{ 'admin.text.blocked' | trans }}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+              </div>
+            </div>
+        </div>    
+    </section>  
+{% endblock %}    
+
+{% block javascript %}
+    {{ parent() }}
+ 
+    {% javascripts  
+        '@AdminBundle/Resources/public/vendors/plugins/datatables/jquery.dataTables.min.js'
+        '@AdminBundle/Resources/public/vendors/plugins/datatables/dataTables.bootstrap.min.js'
+        '@AdminBundle/Resources/public/js/composition_search.js'
+        output='admin-panel/compiled/composition_search.js'  %}
+        
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+   
+{% endblock %}    
+ 

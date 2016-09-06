@@ -1,0 +1,3 @@
+test_common:
+    path:      /common
+    defaults:  { _controller: AppBundle:JsTest:testCommon }

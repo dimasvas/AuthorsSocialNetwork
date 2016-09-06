@@ -1,0 +1,38 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block seo %}
+    <title>{{ 'resetting.heading'  | trans }} </title>
+{% endblock %}
+        
+{% block content %}
+    <h1 class="text-center">{{ 'resetting.heading' | trans }}</h1>
+    {% block fos_user_content %}
+
+        <div class="col-lg-6 col-md-6 col-sm-8 reset-form">
+            <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}"  method="POST" class="fos_user_resetting_reset sign-up-form" id="reset-pass-form">
+                {{ form_widget(form) }}
+                <div>
+                    <button type="submit" class="btn btn-default" value="{{ 'resetting.reset.submit'|trans }}">
+                        {{ 'resetting.reset.submit'|trans }}
+                    </button>
+                </div>
+            </form>
+        </div> 
+    {% endblock fos_user_content %}
+{% endblock %}
+
+{% block javascripts %}
+       {{ parent() }}
+        
+        {% javascripts  
+            '@validate_js'
+            '@validate_js_extra'
+            '@AppBundle/Resources/public/js/plugins/validate_lang_switcher.js'
+            '@UserBundle/Resources/public/js/reset_password.js'
+            output='js/resetp.js' 
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+{% endblock %}

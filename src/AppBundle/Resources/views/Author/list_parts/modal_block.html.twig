@@ -1,0 +1,20 @@
+<!-- Modal -->
+<div class="modal fade author-modal-message" id="userBlockModal" tabindex="-1" role="dialog" aria-labelledby="userBlockModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <strong>{{ 'common.sure_to_block' | trans({}, 'messages') }}</strong>
+               <p class="small"> {{ 'common.no_messaging_text' | trans({}, 'messages') }}</p>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm send-btn" data-dismiss="modal">
+                    {{ 'common.no' | trans({}, 'messages') }}
+                </button>
+                <button type="button" class="btn btn-default btn-sm" data-user-id="{{ user.id }}" id="block-user-btn">
+                    {{ 'common.yes' | trans({}, 'messages') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

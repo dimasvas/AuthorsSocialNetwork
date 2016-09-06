@@ -1,0 +1,163 @@
+<div class="col-lg-3 text-center image-container">
+    <div id="image-wrapper">
+        {% if entity.imageName is empty  %}
+            <img  width="180px" class="composition-cover"  src="{{ default_composition_cover }}" id="composition-image">
+        {% else %}
+            <img width="180px" class="composition-cover" src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.title }}" />
+        {% endif %}
+    </div>
+
+   <div id="upload-wrapper" class="hidden"></div>
+    <div class="button-wrapper">
+        <form id="upload-form" enctype="multipart/form-data" method="post">
+            <input type="hidden" id="imagebase64" name="imagebase64">
+            <input type="hidden" name="name" value='image'>
+            <span class="btn btn-default btn-xs btn-file">
+                {{ 'common.change' | trans }} 
+                <input type="file" id="upload">
+            </span> 
+
+            <button type="button" class="btn btn-default btn-xs hidden" id="upload-do">{{ 'common.save' | trans }}</button>
+            <button type="button" class="btn btn-default btn-xs hidden" id="upload-cancel">{{ 'common.cancel' | trans }}</button>
+        </form>    
+    </div>
+
+    <div class="image-processing text-left">
+        <span class="loading-indicator hidden" id="processing-container"></span>
+    </div>
+</div> 
+
+<div class="col-lg-9 list-info">
+    <h4 class="info-list">{{ 'common.editing_general' | trans }}</h4>
+    <div class="settings-row">
+        <div class="naming col-sm-4 col-xs-12">{{ 'common.title'|trans }}:</div>
+        <div class="naming-info col-sm-8 col-xs-12">
+            <a href="#" id="edit-title" >{{ entity.title }}</a>
+        </div>
+    </div>
+    <div class="settings-row">
+        <div class="naming col-sm-4 col-xs-12">{{ 'common.description'|trans }}:</div>
+        <div class="naming-info col-sm-8 col-xs-12">
+            <a href="#" id="edit-description">{{ entity.description }}</a>
+        </div>
+    </div>
+{#                     TODO: Must bE only one place to define Language #}
+    <div class="settings-row">
+        <div class="naming col-sm-4 col-xs-12">{{ 'common.language'|trans }}:</div>
+        <div class="naming-info col-sm-8 col-xs-12">
+            <a href="#" 
+               id="edit-language"
+               data-type="select" 
+               data-source="{'ru': '{{ 'language.ru' | trans }}', ua: '{{ 'language.ua' | trans }}'}"
+               data-value="{{ entity.language }}">
+            </a>    
+        </div>
+    </div>  
+{#                     TODO: Must bE only one place to define Status#}
+    <div class="settings-row">
+        <div class="naming col-sm-4 col-xs-12">{{ 'common.status'|trans }}:</div>
+        <div class="naming-info col-sm-8 col-xs-12">
+            <a href="#" 
+               id="edit-status"
+               data-type="select" 
+               data-source="{'in_process': '{{ 'composition_status.in_process' | trans }}', 'finished': '{{ 'composition_status.finished' | trans }}', 'freezed': '{{ 'composition_status.freezed' | trans }}'}"
+               data-value="{{entity.status}}">
+            </a>    
+        </div>
+    </div>
+    <div class="settings-row">
+        <div class="naming col-sm-4 col-xs-12">{{ 'common.visibility'|trans }}:</div>
+        <div class="naming-info col-sm-8 col-xs-12">
+            <a href="#" 
+               id="edit-visibility"
+               data-type="select" 
+               data-source="{ 0: '{{ 'composition_visibility.unpublished' | trans }}', 1: '{{ 'composition_visibility.published' | trans }}'}"
+               data-value="{{ entity.published ? 1 : 0 }}">
+            </a>    
+        </div>
+    </div>         
+
+    <div class="settings-row">
+        <div class="naming col-sm-4 col-xs-12 genre-padding">{{ 'common.genres'|trans }}:</div>
+        <div class="naming-info col-sm-8 col-xs-12 genre-padding">
+            <a href="#" id="edit-genres" data-type="checklist" data-value="{{ selected_genres }}" data-source='{{ all_genres }}' data-pk="1" data-title="Select options"></a>   
+        </div>
+    </div>    
+        
+    <div class="clearfix"></div> 
+    
+    <div class="type-editing-wrapper">
+        <h4 class="info-list">{{ 'common.editing_content' | trans }}</h4>
+        <div class="settings-row">
+            {% if entity.typeName in textTypes %}
+                <div class="btn-group" role="group" aria-label="...">
+                    <a class="btn btn-default btn-sm" href="{{path('composition_edit_content', {id: entity.id})}}">
+                        <span class="glyphicon glyphicon-edit"></span> {{ 'common.edit_text' | trans }}
+                    </a>
+                </div>                            
+            {% elseif entity.typeName in videoTypes %} 
+                <div class="settings-row">
+                    <div class="naming col-sm-4 col-xs-12 content-edit-label">{{ 'common.youtube_link'|trans }}:</div>
+                    <div class="naming-info col-sm-8 col-xs-12">
+                        <a href="#" id="edit-video-content" >{{ entity.type.content }}</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            {% else%}
+               {{ 'common.add_intab_files' | trans | raw }}
+            {% endif %}
+           
+        </div>
+    </div>  
+    
+    <div class="type-editing-wrapper">
+        <h4 class="info-list">{{ 'common.broadcast' | trans }}</h4>
+        <div class="settings-row">
+            <div class="btn-group" role="group" aria-label="...">
+                <a class="btn btn-default btn-sm" href="#" data-toggle="modal" data-target="#sendUpdateModal">
+                     <span class="glyphicon glyphicon-tasks"></span> {{ 'common.send_update' | trans }}
+                </a>
+            </div>
+        </div>
+    </div>     
+                
+    <div class="type-editing-wrapper">
+        <h4 class="info-list">{{ 'common.composition_archive' | trans }}</h4>
+        <div class="settings-row">
+            {{ form(delete_form) }}         
+        </div>
+    </div>             
+    
+    <!-- Modal -->
+    <div class="modal fade" id="sendUpdateModal" tabindex="-1" role="dialog" aria-labelledby="sendUpdateModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{ 'common.update_message' | trans }}</h4>
+                </div>
+                <div class="modal-body">
+
+
+                  <form>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">{{ 'common.description_additional' | trans}}</label>
+                      <textarea id="updateMessage" class="form-control" rows="3"></textarea>
+                    </div>
+                  </form>
+                    <div>
+                        {{ 'common.symbols_left' | trans }}: <span id="updateCharNum">100</span>
+                    </div>
+                    {{ 'common.update_msg_to_subscribers' | trans }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'common.cancel' | trans }}</button>
+                    <button type="button" id="sendUpdateBtn" class="btn btn-default">{{ 'common.send' | trans }}</button>
+                </div>
+            </div>
+        </div>
+      </div>
+                    
+
+</div>
+<div class="clearfix"></div>

@@ -1,0 +1,4 @@
+message_topic:
+    channel: message/channel
+    handler:
+        callback: 'message.topic' #related to the getName() of your topic

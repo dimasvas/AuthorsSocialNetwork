@@ -1,0 +1,26 @@
+#Tool for managing RabbitMQ#
+
+## Web Interface##
+http://some_host:15672/
+
+##RabbitMqAdmin##
+
+#Source#
+https://www.rabbitmq.com/management-cli.html
+
+#Installation#
+1. Unix users will probably want to copy rabbitmqadmin to /usr/local/bin.
+2. Chmod file to 777
+
+#Commands#
+rabbitmqadmin list queues name
+
+    Description: Lists all queues.
+
+rabbitmqadmin delete queue name='queuename'
+
+    Description: Delete queue. After deleting check list and ensure that is deleted.
+
+rabbitmqadmin -f long -d 3 list queues
+
+    Description: Get a list of queues, with all the detail we can take

@@ -1,0 +1,21 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block seo %}
+    <title>{{ 'check_email.title'  | trans({}, 'seo') }} </title>
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+    <div class="content check-email">
+        <h3>{{ 'registration.thanks' | trans }}</h3>
+        
+        <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+        <p class="text-center">{{ 'registration.waiting_for_you' | trans }}</p>
+        
+    </div>
+{% endblock fos_user_content %}
+
+

@@ -1,0 +1,201 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block seo %}
+    <title>{{ 'user_settings.title'  | trans({}, 'seo') }} </title>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets
+    'vendor/Croppie/croppie.css'
+
+    filter='cssrewrite' output='css/settings.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block fos_user_content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    <div class="content settings-content">
+        <h1 class="text-center">{{ 'user_settings.title'  | trans({}, 'seo') }}</h1>
+        <div class="sap_tabs">
+            <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+                <ul class="resp-tabs-list">
+                    <li class="resp-tab-item grid1" aria-controls="tab_item-0" role="tab"><span>{{ 'common.profile' | trans}}</span></li>
+                    <li class="resp-tab-item grid2" aria-controls="tab_item-1" role="tab"><span>{{ 'common.settings' | trans }}</span></li>
+                    <li class="resp-tab-item grid2" aria-controls="tab_item-2" role="tab"><span>{{ 'common.account' | trans }}</span></li>
+                    <div class="clear"></div>
+                </ul>
+                        
+                <div class="resp-tabs-container">
+                    <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
+                        <div class="col-lg-3 text-center">
+                            <div id="image-wrapper">
+                                {% if user.imageName is empty  %}
+                                    <img  width="180px" class="composition-cover" src="{{ default_user_profile }}" class="profile-image">
+                                {% else %}
+                                    <img width="180px" class="composition-cover" src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="{{ app.user.name }}" />
+                                {% endif %}
+                            </div>
+                            
+                            <div id="upload-wrapper" class="hidden"></div>
+                            <div class="button-wrapper">
+                                <form id="upload-form" enctype="multipart/form-data" method="post">
+                                    <input type="hidden" id="imagebase64" name="imagebase64">
+                                    <input type="hidden" name="name" value='image'>
+                                    <span class="btn btn-default btn-xs btn-file">
+                                        {{ 'common.change' | trans }} 
+                                        <input type="file" id="upload">
+                                    </span> 
+
+                                    <button type="button" class="btn btn-default btn-xs hidden" id="upload-do">{{ 'common.update' | trans }}</button>
+                                    <button type="button" class="btn btn-default btn-xs hidden" id="upload-cancel">{{ 'common.cancel' | trans }}</button>
+                                </form>    
+                            </div>
+
+                            <div class="image-processing text-left">
+                                <span class="loading-indicator hidden" id="processing-container"></span>
+                            </div>
+                        </div>   
+                        
+                        <div class="col-lg-9 list-info">
+                            <div class="settings-row"> 
+                                <div class="naming col-sm-4 col-xs-12">{{ 'common.country'|trans }}:</div>
+                                <div class="naming-info col-sm-8 col-xs-12">
+                                    <a href="#" 
+                                       id="edit-country"
+                                       data-type="select" 
+                                       data-source="{{ countries }}"
+                                       data-value="{{ user.country }}">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="settings-row">
+                                <div class="naming col-sm-4 col-xs-12">{{ 'common.city'|trans }}:</div>
+                                <div class="naming-info col-sm-8 col-xs-12">
+                                    <a href="#" id="edit-city" data-title="{{ 'common.city'|trans }}">{{ user.city is empty ? '---' : user.city }}</a>
+                                </div>
+                            </div>
+                            <div class="settings-row">
+                                <div class="naming col-sm-4 col-xs-12">{{ 'common.hide_year_of_birth'|trans }}:</div>
+                                <div class="naming-info col-sm-8 col-xs-12">
+                                    <a href="#" id="edit-hide-birthday"
+                                            data-type="select" 
+                                            data-source="{0: '{{ 'common.no' | trans }}', 1: '{{ 'common.yes' | trans }}'}"
+                                            data-value="{{ user.hideYearOfBirth? '1' : '0' }}">
+                                </div>
+                            </div>
+                                
+                           {# {% if user.isAuthor %}
+                                <div class="settings-row">
+                                    <div class="naming col-sm-4 col-xs-12">{{ 'common.show_alias_name'|trans }}:</div>
+                                    <div class="naming-info col-sm-8 col-xs-12">
+                                        <a href="#" id="edit-show-alias" 
+                                           data-type="select" 
+                                           data-source="{0: '{{ 'common.no' | trans }}', 1: '{{ 'common.yes' | trans }}'}"
+                                           data-value="{{ user.showAliasName ? '1' : '0' }}">
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}  #}
+                            
+                            <div class="settings-row">
+                                <div class="naming col-sm-4 col-xs-12">{{ 'common.about_me'|trans }}:</div>
+                                <div class="naming-info col-sm-8 col-xs-12">
+                                    <a href="#" id="edit-about">{{ user.aboutme }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                     
+                    <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-1">
+                        <div class="col-lg-3 text-center"></div>   
+                        <div class="col-lg-9 list-info">                           
+                            <div class="settings-row">
+                                <div class="naming col-sm-4 col-xs-12">{{ 'profile.show.locale'|trans }}:</div>
+                                <div class="naming-info col-sm-8 col-xs-12">
+                                    <a href="#" 
+                                       id="edit-locale"
+                                       data-type="select" 
+                                       data-source="{'ru': '{{ 'language.ru' | trans }}', ua: '{{ 'language.ua' | trans }}'}"
+                                       data-value="{{ user.locale }}">
+                                    </a>    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    
+                    <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-2">
+                        <div class="col-lg-3 text-center"></div>   
+                        <div class="col-lg-9 list-info account-tab">   
+                            <div>
+                                <h4 class="text-center">{{ 'common.change_email' | trans }}</h4>
+                                <form id="changeEmailForm">
+                                    <div class="form-group">
+                                      <label for="changeEmailINput">{{ 'common.email' | trans }}</label>
+                                      <input type="email" class="form-control input-sm" id="changeEmailInput" name="changeEmailInput" value="{{ user.email }}">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="inputEmailPassword">{{ 'common.password' | trans }}</label>
+                                      <input type="password" class="form-control input-sm" id="inputEmailPassword" name="inputEmailPassword">
+                                    </div>
+                                    <button type="submit" class="btn btn-default btn-sm">{{ 'common.update' | trans}}</button> 
+                                    <span class="account-msg" id="email-msg"></span>
+                                    <div class="settings-indicator" id="email-load-inidcator">&nbsp;</div>
+                                  </form>
+                            </div>
+                            <div class="clearfix"> </div> 
+                            <div>
+                                <h4 class="text-center">{{ 'common.change_password' | trans }}</h4>
+                                <form id="changePasswordForm">
+                                    <div class="form-group">
+                                      <label for="currentPasswordInput">{{ 'common.current_password' | trans}}</label>
+                                      <input type="password" class="form-control input-sm" id="currentPasswordInput" name="currentPasswordInput" placeholder="Текущий пароль">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="newPasswordInput">{{ 'common.new_password' | trans }}</label>
+                                      <input type="password" class="form-control input-sm" id="newPasswordInput" name="newPasswordInput" placeholder="Новый пароль">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="retypePasswordInput">{{ 'common.again_password' | trans }}</label>
+                                      <input type="password" class="form-control input-sm" id="retypePasswordInput" name="retypePasswordInput" placeholder="Новый пароль">
+                                    </div>
+                                    <button type="submit" class="btn btn-default btn-sm">{{ 'common.change' | trans }}</button> 
+                                    <div class="settings-indicator" id="password-load-indicator">&nbsp;</div>
+                                    <span class="account-msg" id="password-msg"></span>
+                                  </form>
+                            </div>    
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>                
+                </div>
+            </div>
+                
+                
+        </div>
+            <div class="clearfix"> </div>
+ 
+    </div>    
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+       {{ parent() }}
+        
+        {% javascripts  
+            '@validate_js'
+            '@validate_js_extra'
+            '@AppBundle/Resources/public/js/plugins/validate_lang_switcher.js'
+            '@AppBundle/Resources/public/js/plugins/tabs.js'
+            '@croppie_js'
+            '@AppBundle/Resources/public/js/croppie_handler.js'
+            '@UserBundle/Resources/public/js/settings.js'
+            output='js/settings.js' 
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+            
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'categories'}) }}
+{% endblock %}
+
+{% block content %}
+<div class="pages">
+    <div class="section-text">
+            <h1 class="text-center">{{ 'common.categories_and_genres' | trans }}</h1>
+    </div>	
+    <div class="section-grid">
+        <div class="row no-margin">
+            {% for item in categories%}
+                {% if loop.index in [1, 4, 7, 10]%}
+                    <div class="row"> 
+                {% endif %}
+                
+                    <div class="col-md-4 about-text-info">
+                        <h4><a href="{{ path('category_show', {id: item.id})}}">{{ ('category.' ~ item.alias) | trans }}</a></h4>
+                            <ul>
+                                {% for genre in item.genres %}
+                                    <li><a href="{{ path('show_by_genre', {id: genre.id })}}">{{ ('genre.' ~ genre.alias) | trans }}</a></li>
+                                {% endfor %}
+                            </ul>
+                    </div>
+
+                {% if loop.index in [3, 6, 9, 12]%}    
+                    </div>
+                {% endif %}      
+            {% endfor %}      
+        <div class="clearfix"> </div>
+    </div>
+</div>
+{% endblock %}

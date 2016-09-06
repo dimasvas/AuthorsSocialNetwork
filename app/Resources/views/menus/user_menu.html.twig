@@ -1,0 +1,50 @@
+{#{{ knp_menu_render('AppBundle:Builder:userMenu', {'currentClass': 'active'}) }}#}
+<div class="well">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-sx-12 user-data nopadding">
+        {% if app.user.imageName is empty  %}
+            {% set user_profile_image =  default_user_profile  %}
+        {% else %}
+            {% set user_profile_image =  vich_uploader_asset(app.user, 'imageFile') %}
+        {% endif %}
+        
+        <div>
+            <img src="{{ user_profile_image }}" id="menu-profile-img">
+            <div class="user-manage">
+                {#<a href="{{ path('fos_user_profile_show')}}">{{ app.user.name}} {{ app.user.surname }}</a>#}
+
+                <div class="dropdown">
+                    <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="menu-username">{{ app.user.username}}</span> 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        {% if app.user.isAuthor == true %}
+                            <li><a href="{{path('author_show', {id: app.user.id})}}">{{ 'common.profile' | trans }}</a></li>
+                        {% else %}
+                            <li><a href="{{path('profile_show', {id: app.user.id })}}">{{ 'common.profile' | trans }}</a></li>
+                        {% endif %}    
+
+                        <li><a href="{{ path('user-settings')}}">{{ 'common.settings' | trans }}</a></li>
+                     {# <li role="separator" class="divider"></li>#}
+                    </ul>
+                  </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8 col-md-8 col-sm-12 col-sx-12 user-menu-wrapper nopadding">
+        <ul class = "nav nav-pills authorized-user-menu">
+            {% if app.user.isAuthor == true %}
+                <li> <a href="{{path('author_show', {id: app.user.id}) }}">{{ 'menu.my_page' | trans }}</a></li>
+            {% endif %}
+
+            <li><a href = "{{ path('message')}}">{{ 'menu.messages' | trans }} <span class="badge" id="message-badge"></span></a></li>
+            <li><a href="{{ path('subscribtion_page')}}">{{ 'menu.subscribtions' | trans }}{#<span class = "badge">10</span>#}</a></li>
+            <li><a href="{{ path('favourite_list') }}">{{ 'menu.favourite' | trans }}</a></li>
+            {% if is_granted('ROLE_ADMIN') %} 
+                <li><a href="{{ path('admin-dashboard') }}" target="_blank">{{ 'menu.admin_panel' | trans }}</a></li>
+            {% endif %}
+        </ul> 
+    </div>             
+    <div class="clearfix"></div>
+</div>

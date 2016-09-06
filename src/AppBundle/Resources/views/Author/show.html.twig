@@ -1,0 +1,134 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'author_show', 'title': entity.nameSurname, 'type' : ''}) }}
+{% endblock %}
+
+{% block content %}
+    <div class="content author-show">
+       
+        <div class="col-lg-3 text-center">
+            {% if entity.imageName is empty  %}
+                <img  width="200px" src="{{ default_user_profile }}" class="profile-image">
+            {% else %}
+                <img width="200px" src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.name }}" />
+            {% endif %}
+            </p>
+            
+               
+            {% if app.user and app.user.id != entity.id %}
+                 <!-- Button trigger modal -->
+                 <div class="user-rel-wrapper">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#authorMessageModal">
+                        {{ 'common.send_message' | trans}}
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-xs block-btn" data-toggle="modal" data-target="#userBlockModal">
+                        {{ 'common.block' | trans }}
+                    </button>
+                 </div>    
+                 
+                 {{ include('AppBundle:Author:list_parts/modal_msg.html.twig', {user: entity}) }}
+                 {{ include('AppBundle:Author:list_parts/modal_block.html.twig', {user: entity}) }}
+            {% endif %}   
+        </div>   
+            
+        <div class="col-lg-9 list-info">
+            <h1>{{ entity.name }} {{ entity.surname }} ({{ entity.username }})</h1>
+            
+            <div>
+                <div class="naming col-sm-4 col-xs-12">{{ 'common.date_of_birth'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-7">
+                    {{ entity.dateofbirth  |date('d') }}
+                    {{ ('months_date.' ~ (entity.dateofbirth  |date('F'))) | trans }}
+                    
+                    {% if not entity.hideyearofbirth %}
+                        {{ entity.dateofbirth  |date('Y') }}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-12">{{ 'common.country'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-12">{{ entity.country | country}}, {{ entity.city is empty ? '-' : entity.city }}</div>
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-12">{{ 'common.gender'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-12">{{ entity.gender == 'male' ? 'gender.male' | trans : 'gender.female' | trans}}</div>
+            </div>
+            
+            <div>
+                <div class="naming col-sm-4 col-xs-12">{{ 'common.compositions_number'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-12">{{ entity.author.totalCompositions }}</div>
+            </div> 
+            <div>
+                <div class="naming col-sm-4 col-xs-12">{{ 'common.friendship' | trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-12">
+                    {% if entity.friendship > 0 %} 
+                        <span class="text-success"> {{ '+ ' ~ entity.friendship }}</span>
+                    {% elseif entity.friendship < 0 %}    
+                        <span class="text-danger"> {{ entity.friendship }}</span> 
+                    {% else %}   
+                        {{ entity.friendship }}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-12">{{ 'common.about_me'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-12">{{ entity.aboutme is empty ? '-' : entity.aboutme }}</div>
+            </div>
+                   
+        </div>
+            
+        <div class="clearfix"></div>  
+        
+        {% if app.user and app.user.id == entity.id %}
+            <div class="create-composition row">
+                <div class="col-lg-9 col-lg-offset-3">
+                    <button type="button" id="new-composition-btn" class="btn btn-default">{{'common.new_composition' | trans }}</button>
+                    <div class="new-comp-hidden-area" id="new-comp-hidden-area">                      
+                        <form name="{{form.vars.name}}" method="{{form.vars.method}}" action="{{form.vars.action}}">
+                            <div id="composition_category_select">
+                                <div class="form-group">
+                                    {{ form_label(form.id) }}
+                                    <select id="composition_category_select_id" name="composition_category_select[id]" required="required" class="form-control">
+                                        <option value="" selected="selected">- {{ 'common.choose_2' | trans }} -</option> 
+                                        {% for category in form.id.vars.choices %}
+                                            <option value="{{ category.value }}">{{ ('category.' ~ category.data.alias) | trans }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                {{ form_widget(form.submit) }}
+                                {{ form_widget(form._token) }}    
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        {% endif %}    
+        
+       
+    </div>
+
+    <div class="col-lg-12 author-compositions-table">
+       {{ include('AppBundle:Author:list_parts/list_table.html.twig') }}
+    </div>    
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script type="text/javascript">
+        App.data.recipient = "{{ entity.id}}";
+
+    </script>  
+        
+    {% javascripts 
+        '@AppBundle/Resources/public/js/author_show.js' 
+        '@AppBundle/Resources/public/js/message_send.js'
+        output='js/author_show.js'%}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

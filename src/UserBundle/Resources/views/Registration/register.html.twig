@@ -1,0 +1,193 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'registration'}) }}
+{% endblock %}
+
+{% block fos_user_content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    <div class="sign-up-form">
+        <h3>{{ 'layout.register' | trans }}</h3>
+        <p>{{ 'text.registration_page.please_fill' | trans }}</p>
+
+        <form action="{{ path('fos_user_registration_register') }}"  method="POST" class="fos_user_registration_register form-horizontal" id="register-form">
+
+            <h5 class="sign-up">{{ 'text.registration_page.login_info' | trans }}</h5>
+
+             <div class="form-group">
+                {{ form_label(form.email, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.email) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.email) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 col-lg-3 control-label control-label required" for="fos_user_registration_form_username" aria-required="true">
+                    {{ 'profile.show.nickname' | trans}}
+                </label>
+                {{ form_errors(form.username) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.username) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.plainPassword.first, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.plainPassword.first) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.plainPassword.first) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.plainPassword.second, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.plainPassword.second) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.plainPassword.second) }}
+                </div>
+            </div>
+
+
+            <h5 class="sign-up">{{ 'text.registration_page.about_you' | trans }} :)</h5>
+
+            <div class="form-group">
+                {{ form_label(form.isAuthor, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.isAuthor) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.isAuthor) }}
+                    
+                    <div id="author-warning" class="hidden text-danger">
+                        {{ 'registration.author_warning'  | trans }}
+                    </div>  
+                </div> 
+            </div>
+                    
+            <div class="form-group">
+                {{ form_label(form.name, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.name) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.name) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.surname, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.surname) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.surname) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.middleName, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.middleName) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.middleName) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.gender, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.gender) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.gender) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.dateOfBirth, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.dateOfBirth) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {% if app.request.locale == 'ua'%}
+                        <div id="fos_user_registration_form_dateOfBirth" novalidate="novalidate" class="form-inline">
+                            {{ form_widget(form.dateOfBirth.year ) }}
+                             - 
+                            {{ form_widget(form.dateOfBirth.day ) }}
+                             - 
+                            {% if app.request.locale == 'ua'%}
+                                <select id="fos_user_registration_form_dateOfBirth_month" name="fos_user_registration_form[dateOfBirth][month]" class="form-control"> 
+                                    {% for month in form.dateOfBirth.month.vars.choices %}
+                                        <option value="{{ month.value }}">{{ ('months.' ~ month.label)  | trans({}, 'messages') }}</option>
+                                    {% endfor %}  
+                                </select>    
+                            {% else %}
+                                {{ form_widget(form.dateOfBirth ) }}
+                            {% endif %} 
+                        </div>
+                    {% else %}
+                        {{ form_widget(form.dateOfBirth) }}
+                    {% endif %} 
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.country, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.country) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {% if app.request.locale == 'ua'%}
+                        <select id="fos_user_registration_form_country" name="fos_user_registration_form[country]" required="required" novalidate="novalidate" class="form-control" aria-required="true">
+                            <option value="" selected="selected">{{ 'common.choose_2' | trans({}, 'messages') }}</option>
+                            {% for country in form.country.vars.choices %}
+                                <option value="{{ country.value }}">{{ ('countries.' ~ country.value)  | trans({}, 'countries') }}</option>
+                            {% endfor %}    
+                        </select>
+                    {% else %}
+                        {{ form_widget(form.country) }}
+                    {% endif %}    
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{ form_label(form.city, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.city) }}
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    {{ form_widget(form.city) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.hideYearOfBirth, null, {'label_attr': {'class': 'col-sm-4 col-lg-3 control-label'}}) }}
+                {{ form_errors(form.hideYearOfBirth) }}
+                <div class="col-sm-8 col-md-6 col-lg-5 col-lg-offset-3 col-md-offset-4 col-sm-offset-4 hide-year_of_birth">
+                    {{ form_widget(form.hideYearOfBirth) }}
+                </div>  
+            </div> 
+                
+            <div class="form-group">
+                <div class="col-sm-8 col-md-6 col-lg-5 col-lg-offset-3 col-md-offset-4 col-sm-offset-4 hide-year_of_birth">
+                   <input type="checkbox" id="rule_agree" name="rule_agree"> <a href="{{ path('rules_page')}}" target="_blank" class="color-link rule-link">
+                       {{'registration.agree_to_rule' | trans }}
+                   </a>
+                </div>
+            </div>     
+
+            <div class="form-group">
+                <div class="col-sm-8 col-md-6 col-lg-5 col-lg-offset-3 col-md-offset-4 col-sm-offset-4">
+                    {{ form_widget(form.locale) }}
+                    {{ form_widget(form._token) }}
+                    
+                    <div class="g-recaptcha" data-sitekey="{{app.request.getHost == prod_domain ? '6LcCih0TAAAAAN3jq5yaO4mX3ZjBPD5MBe9EFc4_' : '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' }}"></div>
+                    <input type="submit" class="form-btn" id="submit-btn" value="{{ 'registration.create_user'|trans }}" disabled/>
+                </div>
+            </div>          
+        </form>
+    </div>
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+       {{ parent() }}
+        
+        {% javascripts  
+            '@validate_js'
+            '@validate_js_extra'
+            '@AppBundle/Resources/public/js/plugins/validate_lang_switcher.js'
+            '@UserBundle/Resources/public/js/registration.js'
+            output='js/register.js' 
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        
+        <script src='https://www.google.com/recaptcha/api.js?hl=ru'></script>
+{% endblock %}

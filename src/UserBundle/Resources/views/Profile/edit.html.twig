@@ -1,0 +1,115 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    <div class="row profile-edit regular-label">
+        <div class="col-lg-6">
+            <form action="{{ path('fos_user_profile_edit') }}"  method="POST" class="fos_user_profile_edit">
+                {#{{ form_widget(form) }}#}
+
+                <div class="well well-sm">
+                    <div class="form-field-group">
+                        {{ form_label(form.username) }}
+                        {{ form_errors(form.username) }}
+                        {{ form_widget(form.username) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.name) }}
+                        {{ form_errors(form.name) }}
+                        {{ form_widget(form.name) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.surname) }}
+                        {{ form_errors(form.surname) }}
+                        {{ form_widget(form.surname) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.middleName) }}
+                        {{ form_errors(form.middleName) }}
+                        {{ form_widget(form.middleName) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.dateOfBirth) }}
+                        {{ form_errors(form.dateOfBirth) }}
+                        {{ form_widget(form.dateOfBirth) }}
+                    </div>
+                </div>
+
+                <div class="well well-sm">
+                    <div class="form-field-group">
+                        {{ form_label(form.hideYearOfBirth) }}
+                        {{ form_errors(form.hideYearOfBirth) }}
+                        {{ form_widget(form.hideYearOfBirth) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.email) }}
+                        {{ form_errors(form.email) }}
+                        {{ form_widget(form.email) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.aliasName) }}
+                        {{ form_errors(form.aliasName) }}
+                        {{ form_widget(form.aliasName) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.showAliasName) }}
+                        {{ form_errors(form.showAliasName) }}
+
+                        {% if form.aliasName.vars.value is empty  %}
+                            {{ form_widget(form.showAliasName, { attr: {disabled: true} }) }}
+                        {% else %}
+                            {{ form_widget(form.showAliasName, { attr: {disabled: false} }) }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.country) }}
+                        {{ form_errors(form.country) }}
+                        {{ form_widget(form.country) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.city) }}
+                        {{ form_errors(form.city) }}
+                        {{ form_widget(form.city) }}
+                    </div>
+
+                    <div class="form-field-group">
+                        {{ form_label(form.aboutMe) }}
+                        {{ form_errors(form.aboutMe) }}
+                        {{ form_widget(form.aboutMe) }}
+                    </div>
+                </div>
+
+                <div class="well well-sm">
+                    <div class="form-field-group">
+                        {{ form_label(form.imageFile) }}
+                        {{ form_errors(form.imageFile) }}
+                        {{ form_widget(form.imageFile) }}
+                    </div>
+                </div>
+
+                <div class="well well-sm">
+                    <div class="form-field-group">
+                        {{ form_label(form.current_password) }}
+                        {{ form_errors(form.current_password) }}
+                        {{ form_widget(form.current_password) }}
+                    </div>
+                </div>
+
+                    <div>
+                        {{ form_widget(form._token) }}
+                        <input type="submit" class="btn btn-default" value="{{ 'profile.edit.submit'|trans }}" />
+                    </div>
+            </form>
+        </div>
+    </div>
+{% endblock fos_user_content %}

@@ -1,0 +1,64 @@
+ <h3 class="text-center">{{ 'common.author_compositions' | trans }}</h3>  
+
+<table class="table table-hover ">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>{{ 'common.title' | trans }}</th>
+        <th>{{ 'common.type' | trans }}</th>
+        <th>{{ 'common.rate' | trans }}</th>
+        <th>{{ 'common.genre' | trans }}</th>
+        <th>{{ 'common.added' | trans }}</th>
+        <th>{{ 'common.status' | trans }}</th>
+        {% if app.user and app.user.id == entity.id %}
+        <th>{{ 'common.visibility' | trans }}</th>
+        {% endif %}
+      </tr>
+    </thead>
+
+    <tbody>
+        {% if compositions is not empty %}
+
+            {% for composition in compositions %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td><a href="{{ path('composition_show', { 'id': composition.id }) }}"> {{ composition.title }}</a></td>
+                    <td>{{('category.'~ composition.category.alias) | trans }}</td>
+                    <td>{{ composition.totalRatingNum }} / {{ composition.numUsersRate }}</td>
+                    <td>
+                        {% for genre in composition.genres %}
+                            {{ genre.name }}
+
+                            {% if not loop.last %}
+                                {{', '}}
+                            {% endif %}
+                        {% endfor %} 
+                    </td>
+                    <td>{{ composition.created | date("m/d/Y")}}</td>
+                    <td>{{ ('composition_status.' ~ composition.status) | trans }}</td>
+                    {% if app.user and app.user.id == entity.id %}
+                        {% if composition.status == 'deleted' %}
+                            <td>-</td>
+                        {% else %}
+                            <td>
+                                {% if composition.blocked == true %}
+                                    {{ 'page_avail.blocked' | trans }}
+                                {% elseif composition.published == true %}
+                                    {{ 'page_avail.published' | trans }}
+                                {% elseif composition.published == false %}
+                                    {{ 'page_avail.unpublished' | trans }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+            {% endfor %}    
+
+        {% else %}
+            <tr>
+                <td colspan="7" class="text-center" id="no-compositions">{{ 'common.no_compositions' | trans }}</td>
+            </tr>    
+        {% endif %}  
+    </tbody>  
+
+</table>

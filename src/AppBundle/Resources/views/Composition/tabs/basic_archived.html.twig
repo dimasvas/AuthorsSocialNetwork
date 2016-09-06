@@ -1,0 +1,86 @@
+<div class="sap_tabs">
+    <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+        <ul class="resp-tabs-list">
+            <li class="resp-tab-item grid1" aria-controls="tab_item-0" role="tab">
+                <span>{{ 'common.composition' | trans}}</span>
+            </li>
+            
+            <div class="clear"></div>
+        </ul>
+
+        <div class="resp-tabs-container">
+            <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
+                <div class="col-lg-3 text-center">
+                    {% if entity.imageName is empty  %}
+                        <img  width="180px" class="composition-cover"  src="{{ default_composition_cover }}" class="profile-image">
+                    {% else %}
+                        <img width="180px" class="composition-cover"  src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.title }}" />
+                    {% endif %}
+                </div>   
+
+                <div class="col-lg-9 list-info">
+                    <div>
+                        <div class="naming col-sm-4 col-xs-5">ID:</div>
+                        <div class="naming-info col-sm-8 col-xs-7">{{ entity.id }}</div>
+                    </div>
+                    <div>
+                        <div class="naming col-sm-4 col-xs-5">{{ 'common.rate' |trans }}:</div>
+                        <div class="naming-info col-sm-8 col-xs-7">{{ entity.totalratingnum }} / {{ entity.numusersrate }}</div>
+                    </div>
+                    <div>
+                        <div class="naming col-sm-4 col-xs-5">{{ 'common.genre' |trans }}:</div>
+                        <div class="naming-info col-sm-8 col-xs-7" id="genre-field">
+                            {% for genre in entity.genres %}
+                                {{ genre.name }}
+
+                                {% if not loop.last %}
+                                    {{', '}}
+                                {% endif %}
+                            {% endfor %} 
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="naming col-sm-4 col-xs-5">{{ 'common.author' |trans }}:</div>
+                        <div class="naming-info col-sm-8 col-xs-7"><a href="{{ path('author_show', {id: entity.user.id})}}">{{ entity.user.name}} {{ entity.user.surname}}</a></div>
+                    </div>
+                    <div>
+                        <div class="naming col-sm-4 col-xs-5">{{ 'common.created' |trans }}:</div>
+                        <div class="naming-info col-sm-8 col-xs-7">{{ entity.created|date('Y-m-d H:i:s') }}</div>
+                    </div>
+                    <div>
+                        <div class="naming col-sm-4 col-xs-5">{{ 'common.last_update' |trans }}:</div>
+                        <div class="naming-info col-sm-8 col-xs-7">{{ entity.updated|date('Y-m-d H:i:s') }}</div>
+                    </div>
+                    <div>
+                        <div class="naming col-sm-4 col-xs-5">{{ 'common.composition_status' |trans }}:</div>
+                        <div class="naming-info col-sm-8 col-xs-7" style="{% if entity.status == 'finished' %} color:#5cb85c; {% endif %}">
+                            {{ ('composition_status.' ~ entity.status) | trans }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="naming col-sm-4 col-xs-5">{{ 'common.description'|trans }}:</div>
+                        <div class="naming-info col-sm-8 col-xs-7" id="description-field">{{ entity.description }}</div>
+                    </div>                          
+                </div> 
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div> 
+</div>    
+
+<div class="clearfix"></div>
+
+<div class="artical-links">
+    <ul>
+        <li>
+            <a href="#"  class="not-active">
+                <small class="no"> </small><span>{{ 'common.comments' | trans }}</span>
+            </a>
+        </li>
+         <li><a href="" class="not-active"
+                ><small class="link"> </small><span>{{ 'rule_violation' | trans }}</span>
+             </a>
+         </li>
+    </ul>
+</div>

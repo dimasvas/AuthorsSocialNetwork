@@ -1,0 +1,30 @@
+{% extends 'AdminBundle:Basic:index.html.twig' %}
+
+{% block content %}
+      <section class="content-header">
+          <h1>Отзыв</h1>
+          
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> {{ 'admin.text.dashboard' | trans }}</a></li>
+          </ol>
+        </section>
+    <div class="box box-primary show-feedback">
+        <div class="box-body no-padding">
+            <div class="mailbox-read-info">
+                <h3>{{ entity.name }}</h3>
+                <h5>From: {{ entity.email}} <span class="mailbox-read-time pull-right">{{ entity.created | date("d/m/Y h:i") }}</span></h5>
+            </div>
+                 <div class="mailbox-controls with-border text-center">
+                    <button class="btn btn-default btn-sm" data-toggle="tooltip" title="Print"><i class="fa fa-check-square"></i></button>
+                </div>
+            <div class="mailbox-read-message">
+              {{ entity.message }} 
+            </div>
+        </div>
+        <div class="delete-form pull-right">
+            {{ form(delete_form) }}    
+        </div>         
+        <div class="clearfix"></div>
+    </div>
+
+{% endblock %}

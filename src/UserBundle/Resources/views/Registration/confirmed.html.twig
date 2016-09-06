@@ -1,0 +1,32 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block seo %}
+    <title>{{ 'registration_confirmed.title'  | trans({}, 'seo') }} </title>
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="text-center">
+        <p class="registration-confirmed-text">{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+        
+        {% if targetUrl %}
+            <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+        {% endif %}
+    </div>
+    <div id="dvCountDown" class="text-center">
+        {{ 'registration.redirect_to_page' | trans }} <span id="lblCount"></span>&nbsp;{{ 'registration.seconds' | trans }}.
+    </div>
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+       {{ parent() }}
+        
+        {% javascripts  
+            '@UserBundle/Resources/public/js/confirm_account.js'
+            output='js/confirm.js' 
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+{% endblock %}

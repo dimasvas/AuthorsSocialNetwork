@@ -1,0 +1,128 @@
+{% extends "UserBundle::layout.html.twig" %}
+
+{% block seo %}
+    <title>{{ 'profile_show.title'  | trans({}, 'seo') }} </title>
+{% endblock %}
+
+{% block fos_user_content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    <div class="content">
+       
+        <div class="col-lg-3 text-center">
+            {% if user.imageName is empty  %}
+                <img  width="180px" src="{{ default_user_profile}}" class="profile-image">
+            {% else %}
+                <img width="180px" src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="{{ app.user.name }}" />
+            {% endif %}
+            </p>
+            
+               
+            {% if app.user and app.user.id != user.id %}
+                 <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#authorMessageModal">
+                     {{ 'common.send_message' | trans({}, 'messages') }}
+                 </button>
+                 
+                 <button type="button" class="btn btn-default btn-xs block-btn" data-toggle="modal" data-target="#userBlockModal">
+                     {{ 'common.block' | trans({}, 'messages') }}
+                 </button>
+                 
+                 {{ include('AppBundle:Author:list_parts/modal_msg.html.twig', {user: user}) }}
+                 {{ include('AppBundle:Author:list_parts/modal_block.html.twig', {user: user}) }}
+     
+            {% endif %}   
+        </div>   
+            
+        <div class="col-lg-9 list-info">
+            <h1>{{ user.name }} {{ user.surname }} ({{ user.username }})</h1>
+            
+            <div>
+                <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.registered_as'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-7">{{ user.isAuthor ? 'profile.show.author' | trans : 'profile.show.user' | trans }}</div>
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.date_of_birth'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-7">
+                    {{ user.dateofbirth  |date('d') }}
+                    
+                    {{ ('months_date.' ~ (user.dateofbirth  |date('F'))) | trans({}, 'messages') }}
+                    
+                    {% if not user.hideyearofbirth %}
+                        {{ user.dateofbirth  |date('Y') }}
+                    {% endif %}
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.country'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-7">{{ user.country | country}}, {{ user.city is empty ? '-' : user.city }}</div>
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.gender'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-7">{{ user.gender == 'male' ? 'gender.male' | trans({}, 'messages') : 'gender.female' | trans({}, 'messages')}}</div>
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.created'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-7">{{ user.created | date("m/d/Y") }}</div>
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.friendship' |trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-7">
+                    {% if user.friendship > 0 %} 
+                        <span class="text-success"> {{ '+ ' ~ user.friendship }}</span>
+                    {% elseif entity.friendship < 0 %}    
+                        <span class="text-danger"> {{ user.friendship }}</span> 
+                    {% else %}   
+                        {{ user.friendship }}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.about_me'|trans }}:</div>
+                <div class="naming-info col-sm-8 col-xs-7">{{ user.aboutme is empty ? '-' : user.aboutme }}</div>
+            </div>
+            
+            {% if app.user.id == user.id %}
+                <div class="clearfix"></div>
+                <div>
+                    <p class="delimiter">{{ 'profile.show.private_info' | trans }} :</p>
+                </div>
+                <div>
+                    <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.hide_year_of_birth'|trans }}:</div>
+                    <div class="naming-info col-sm-8 col-xs-7">{{ user.hideyearofbirth ? 'common.yes' | trans    : 'common.no'  | trans}}</div>
+                </div>
+                <div>
+                    <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.updated' |trans }}:</div>
+                    <div class="naming-info col-sm-8 col-xs-7">{{ user.updated | date("m/d/Y") }}</div>
+                </div>
+                <div>
+                    <div class="naming col-sm-4 col-xs-5">{{ 'profile.show.locale'|trans }}:</div>
+                    <div class="naming-info col-sm-8 col-xs-7">{{ ('language.' ~ user.locale) | trans({}, 'messages') }}</div>
+                </div>
+                
+            {% endif %}    
+        </div>
+    </div>
+{#            <div class="clearfix"></div>        #}
+{#    <div class="fos_user_user_show">#}
+        {#<p>{{ 'profile.show.secondName'|trans }}: {{ user.middlename }}</p>#}
+
+{#        {% if is_granted('ROLE_AUTHOR') %}#}
+{#            <p>{{ 'profile.show.alias_name'|trans }}: {{ user.aliasname is empty ? '-' : user.aliasname }}</p>#}
+{#           <p>{{ 'profile.show.show_alias_name'|trans }}: {{ user.showaliasname ? 'common.yes' | trans  : 'common.no'  | trans }}</p>#}
+{#        {% endif %}#}
+
+{#    </div>#}
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script type="text/javascript">
+        App.data.recipient = "{{ user.id}}";
+    </script>  
+        
+    {% javascripts 
+        '@AppBundle/Resources/public/js/message_send.js'
+        output='js/profile_show.js'%}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

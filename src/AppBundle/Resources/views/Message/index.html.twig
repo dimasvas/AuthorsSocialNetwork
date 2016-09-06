@@ -1,0 +1,67 @@
+{% extends 'one_column.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets
+    'vendor/perfect-scrollbar/css/perfect-scrollbar.min.css'
+    filter='cssrewrite' output='css/messages.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">{{ 'common.messages' | trans }}</h1>
+
+{#    <div class="search-message-user col-lg-6">
+        <input type="text" class="form-control" placeholder="Поиск собеседников">
+    </div>#}
+    
+    <div class="sap_tabs message-tabs">	
+        <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+            <ul class="resp-tabs-list">
+                    <li class="resp-tab-item message-grid1" aria-controls="tab_item-0" role="tab">
+                        <span>{{ 'common.all' | trans }}</span>
+                    </li>
+                     {% if threadsMessage is not empty %}
+                        <li class="resp-tab-item message-grid2" aria-controls="tab_item-1" role="tab" id="message-grid">
+                            <span>{{ 'common.dialog' | trans }}</span>
+                        </li>
+                    {% endif %}
+                    <li class="resp-tab-item message-grid3" aria-controls="tab_item-2" role="tab" id="blocked-grid">
+                        <span>{{ 'common.blocked' | trans }}</span>
+                    </li>
+                    <div class="clear"></div>
+            </ul>
+            
+            <div class="resp-tabs-container">
+                <div class="msg-tab-1 resp-tab-content default-skin resp-tab-border" aria-labelledby="tab_item-0" id="thread-tab">
+                    {{ include('AppBundle:Message:tabs/threads.html.twig') }}
+                </div>
+                
+                {% if threadsMessage is not empty %}
+                    <div class="msg-tab-2 resp-tab-content resp-tab-border" aria-labelledby="tab_item-1" id="message-tab">
+                        {{ include('AppBundle:Message:tabs/dialog.html.twig') }}
+                    </div>
+                {% endif %}
+                
+                <div class="tab-1 resp-tab-content resp-tab-border" aria-labelledby="tab_item-2" id="blocked-tab">
+                    {{ include('AppBundle:Message:tabs/blocked.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+        {{ parent() }}
+       
+    {% javascripts 
+        'vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.js' 
+        '@AppBundle/Resources/public/js/plugins/tabs.js'
+        '@AppBundle/Resources/public/js/message_page.js'
+        output='js/message.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}  
+{% endblock %}

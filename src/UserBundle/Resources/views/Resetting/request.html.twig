@@ -1,0 +1,57 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block seo %}
+    <title>{{ 'request_pass.title'  | trans({}, 'seo') }} </title>
+{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+    
+     <div class="reset-password">
+        <div class="login-grids">
+            <div class="col-md-6 log">
+                <h3>{{ 'text.reset_password_page.forgot_pass' | trans}}</h3>
+                <p>{{ 'text.reset_password_page.text' | trans}}</p>
+ 
+                
+                <form  action="{{ path('fos_user_resetting_send_email') }}" method="post" id="reset-form">
+
+                    <h5>{{ 'security.login.username'|trans }}</h5>
+                    
+                    <div>
+                        {% if invalid_username is defined %}
+                            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+                        {% endif %}
+                    </div>
+                
+                    <input type="text" class="form-control" id="username" name="username" required="required">
+
+                    <input type="submit" class="theme-btn" value="{{ 'resetting.request.submit'|trans }}">
+
+                </form>
+                
+            </div>
+            <div class="col-md-6 login-right">
+                <h3>{{'layout.register' | trans }}</h3>
+                <p>{{ 'text.login_page.registration_text' | trans}}</p>
+                <a href="{{ path('fos_user_registration_register') }}" class="hvr-bounce-to-bottom button">{{'layout.register' | trans }}</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+       {{ parent() }}
+        
+        {% javascripts  
+            '@validate_js'
+            '@validate_js_extra'
+            '@AppBundle/Resources/public/js/plugins/validate_lang_switcher.js'
+            '@UserBundle/Resources/public/js/reset.js'
+            output='js/login.js' 
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+{% endblock %}

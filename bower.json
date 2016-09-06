@@ -1,0 +1,35 @@
+{
+  "name": "na_tuchke",
+  "authors": [
+    "Dimitry Vasilenko <dmv.dveloper@gmail.com>"
+  ],
+  "description": "Creative Network",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.12",
+    "lightbox2": "^2.8.2",
+    "bootstrap": "^3.3.6",
+    "jquery-colorbox": "^1.6.3",
+    "jquery-validation": "1.14.0",
+    "Croppie": "croppie#^2.0.1",
+    "ckeditor": "#full/stable",
+    "parsleyjs": "^2.3.7",
+    "like-dislike": "^1.0.0",
+    "perfect-scrollbar": "^0.6.10",
+    "blueimp-file-upload": "^9.12.3"
+  },
+  "devDependencies": {
+    "qunit": "^1.23.1"
+  }
+}

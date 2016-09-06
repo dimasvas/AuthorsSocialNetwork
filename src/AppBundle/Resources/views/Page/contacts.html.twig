@@ -1,0 +1,50 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'contacts'}) }}
+{% endblock %}
+
+{% block content %}
+    <div class="contact">
+        <div class="contact-left">
+            <img src="{{ asset('images/bible.jpg') }}" class="img-responsive" alt="Бибиля"/>
+        </div>
+        <div class="contact-right">
+            <p class="phn-bottom">{{ 'text.contact_page.work_on_site' | trans }}<span>{{ 'text.contact_page.in_progress' | trans }}</span></p>
+            <p class="lom">{{ 'text.contact_page.work_text' | trans }}</p>
+        </div>
+        <div class="clearfix"> </div>
+        <div class="contact-left1">
+            <h3>{{ 'text.contact_page.contact' | trans }}<span>{{ 'text.contact_page.us' | trans }}</span></h3>
+            <p class="required-text">{{ 'common.fields_are_required' | trans }}</p>
+            <p class="success-submit alert-success hidden" id="     success-submit">{{ 'common.success_submit' | trans }}</p>
+            <form id="contact-form">
+                <div class="in-left">
+                    <input type="text" id="name" placeholder="{{'common.your_name' | trans }}:">
+                    <input type="text" id="email" placeholder="E-mail:">			
+                </div>
+                <div class="in-right">
+                    <textarea id="message" placeholder="{{'common.message' | trans }}:"></textarea>
+                    <input type="hidden" name="_token" id="token" value="{{ _token }}">
+                    <input type="submit" value="{{'common.submit' | trans }}">
+                </div>
+            </form>
+            <div class="clearfix"> </div>
+        </div>
+                
+        <div class="contact-right1">
+            <h3>{{ 'text.contact_page.we' | trans }}<span>{{ 'text.contact_page.are_christians' | trans }}</span></h3>
+            <h4>{{'text.contact_page.our_desire' | trans }}</h4>
+            <p class="desire-text">{{'text.contact_page.our_desire_text' | trans }}</p>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+{% endblock %}
+
+ {% block javascripts %}
+        {{ parent() }}
+        
+        {% javascripts  '@AppBundle/Resources/public/js/contact.js' output='js/contact.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+{% endblock %}

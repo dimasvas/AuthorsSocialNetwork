@@ -1,0 +1,62 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'favourites'}) }}
+{% endblock %}
+
+{% block content %}
+    
+    <h1 class="text-center">{{ 'common.featured' | trans }}</h1>
+    
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>{{ 'common.composition' | trans }}</th>
+                <th>{{ 'common.author' | trans }}</th>
+                <th>{{ 'common.note' | trans }}</th>
+                <th>{{ 'common.action' | trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>
+                        <a href="{{ path('composition_show', { 'id': entity.composition.id }) }}">
+                            {{ entity.composition.title }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('author_show', {'id': entity.composition.user.id})}}">
+                            {{ entity.composition.user.surname }} {{ entity.composition.user.name }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ entity.comment }}
+                    </td>
+                    <td> 
+                        <button type="button" 
+                                class="btn btn-default btn-sm remove-item" 
+                                data-comp-id="{{ entity.id }}">
+                            {{ 'common.delete' | trans }}
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            
+            {% if entities is empty %}
+                <tr><td colspan="3" class="text-center">{{ 'common.no_favourites' | trans }}</td></tr>
+            {% endif %}    
+        </tbody>
+    </table>
+    
+    {{ include('pagination/pager.html.twig', { 'pager': pager }) }}
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts '@AppBundle/Resources/public/js/favourite.js' output='js/favourite.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

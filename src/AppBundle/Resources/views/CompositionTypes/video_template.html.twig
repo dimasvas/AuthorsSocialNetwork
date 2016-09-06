@@ -1,0 +1,8 @@
+{% if entity.type.content %}
+<div id="type-wrapper" class="well white-bg">
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" id="video-iframe" src="{{ entity.type.content }}"></iframe>
+    </div>
+    <div class="clearfix"></div>
+</div>
+{% endif %}

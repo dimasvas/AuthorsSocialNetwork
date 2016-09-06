@@ -1,0 +1,24 @@
+{% if threadsMessage is not empty %} 
+    {% for item in threadsMessage %}
+
+        {% if app.user.imageName is empty  %}
+            {% set user_profile_image =  default_user_profile  %}
+        {% else %}
+            {% set user_profile_image =  vich_uploader_asset(app.user, 'imageFile') %}
+        {% endif %}
+
+        <div class="facts thread-item {{ loop.first ? 'selected-thread' : ''}}" data-thread-id="{{ item.thread_id }}">
+            <div class="tab_list">
+                    <img src="{{ user_profile_image }}" alt=" " width="60px" />
+            </div>
+            <div class="tab_list1">
+                  <a href="#" class="not-active">{{ item.sender.username }}</a>
+                  <p>{{ item.created |date("m.d.Y  h:m") }}<span>{{ item.body }}</span></p>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    {% endfor %}   
+{% else %}
+    <p class="text-center no-data">{{ 'common.message_no_yet' | trans }}.</p>
+{% endif %}    
+

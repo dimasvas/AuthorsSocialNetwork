@@ -1,0 +1,40 @@
+<div class="col-lg-12 files-wrapper">
+    
+    {% if isOwnerAuthor %}
+        <!-- The fileinput-button span is used to style the file input field as button -->
+        <div class="file-max-message">{{ 'common.allowed_formats' | trans }}</div>
+        <div class="add-file-container">
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+                <span class="btn btn-success btn-sm fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>{{ 'common.add' |trans }}</span>
+                    <!-- The file input field used as target for the file upload widget -->
+                    <input id="fileupload" type="file" name="files[]" data-url="{{ oneup_uploader_endpoint('attachment') }}" multiple />
+                </span>
+            </div>
+                <div class="col-lg-6 col-md-8 col-sm-8 col-xs-8 col-xs-offset-1">
+                    <div id="progress" class="progress">
+                        <div class="progress-bar progress-bar-success"></div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="clearfix"></div>
+        
+        <div class="row">
+            <!-- The container for the uploaded files -->
+            <div id="files" class="files"></div>
+        </div>
+    {% endif %}
+
+    <div class="row files-list-container" id="files-list-container">
+        <!-- List attachments container -->
+        <div class="hidden no-files">
+            <p class="text-center">{{ 'common.no_attached_files' | trans}}</p>
+        </div>
+        <!-- List group -->
+        <ul class="list-group" id="att-list-container"></ul> 
+    </div>
+
+</div>
+<div class="clearfix"></div>

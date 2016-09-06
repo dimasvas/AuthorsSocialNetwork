@@ -1,0 +1,59 @@
+{% extends 'AdminBundle:Basic:index.html.twig' %}
+
+ {% block stylesheets %}
+        {{ parent() }}
+        {% stylesheets filter='cssrewrite'
+        '@AdminBundle/Resources/public/vendors/plugins/datatables/dataTables.bootstrap.css'
+        output='admin-panel/compiled/users.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+    
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ ('admin.text.composition') | trans }} <small>{{ 'admin.text.composition_control' | trans }} </small></h1>
+
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-user"></i> {{ 'admin.text.users' | trans }}</a></li>
+        </ol>
+    </section>
+
+    <section class="content"> 
+        <div class="row">
+            <div class="col-xs-12 box">
+                <div class="box-body ">
+                    <table class="table table-hover table-responsive no-padding">
+                        <tbody>
+                            <tr>
+                                <th>{{ 'admin.text.id' | trans }}</th>
+                                <th>{{ 'admin.text.title' | trans }}</th>
+                                <th>{{ 'admin.text.author' | trans }}</th>
+                                <th>{{ 'admin.text.genre' | trans }}</th>
+                            </tr>
+
+                            {% if pager.currentPageResults is empty %}
+                                <tr class="text-center"><td colspan="5">Ничего не найдено</td></tr>       
+                            {% endif %}
+                            
+                            {% for entity in pager.currentPageResults %}
+                                <tr>
+                                    <td>{{ entity.id }}</td>
+                                    <td><a href="{{ path('composition_show', { 'id': entity.id }) }}">{{ entity.title }}</a></td>
+                                    <td><a href="{{ path('author_show', { 'id': entity.author.user.id }) }}">{{ entity.author.user.name }} {{ entity.author.user.surname }}</a> </td>
+                                    <td>{{ entity.category.name }}</td>
+                                </tr>    
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                    {% if pager.currentPageResults is not empty %}
+                        <div class="pull-right">{{ pagerfanta(pager, 'twitter_bootstrap3') }}</div>  
+                    {% endif %}
+                </div>
+            </div>
+        </div>    
+    </section>  
+{% endblock %}    
+
+ 

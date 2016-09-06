@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>{% block title %} QUnit tests {% endblock %}</title>
+    <meta charset="UTF-8">
+    
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('vendor/qunit/qunit/qunit.css') }}" />
+    {% endblock %}
+    
+    {% block javascripts %}
+        <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('vendor/qunit/qunit/qunit.js') }}"></script>
+    {% endblock %}
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+</body>
+</html>

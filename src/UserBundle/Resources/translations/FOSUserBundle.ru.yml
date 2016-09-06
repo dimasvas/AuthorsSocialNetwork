@@ -1,0 +1,176 @@
+# Group
+group:
+    edit:
+        submit: Обновить группу
+    show:
+        name: Название группы
+    new:
+        submit: Создать группу
+    flash:
+        updated: Группа обновлена
+        created: Группа создана
+        deleted: Группа удалена
+common:
+    about_me: 'О себе'
+    account: 'Аккаунт'
+    again_password: 'Еще раз новый пароль'
+    cancel: 'Отменить'
+    change: 'Изменить'
+    change_email: 'Изменить Email'
+    change_password: 'Изменить Пароль'
+    city: 'Город'
+    country: 'Страна'
+    current_password: 'Текущий пароль'
+    edit: 'Редактировать'
+    email: 'Email'
+    gender:
+        male: 'Мужской'
+        female: 'Женский'
+    hide_year_of_birth: 'Скрыть год рождения'
+    loading: 'Загружается'
+    new_password: 'Новый пароль'
+    no: 'Нет'
+    password: "Пароль"
+    profile: "Профиль"
+    settings: "Настройки"
+    show_alias_name: 'Отображать псевдоним'
+    update: "Обновить"
+    yes: 'Да'
+    
+# Security
+security:
+    login:
+        username: "Имя пользователя/никнейм:"
+        password: "Пароль:"
+        remember_me: 'Запомнить меня'
+        submit: 'Войти'
+        password_forget: 'Забыли пароль?'
+        error: 'Неверный email либо пароль'
+
+# Profile
+profile:
+    show:
+        username: 'Имя пользователя/никнейм'
+        nickname: 'Никнэйм'
+        email: 'Электронная почта'
+        name: 'Имя'
+        secondName: 'Отчество'
+        surname: 'Фамилия'
+        phoneNumber: 'Телефон'
+        photo: 'Фото'
+        alias_name: 'Псевдоним'
+        friendship: 'Отношение'
+        show_alias_name: 'Отображать псевдоним'
+        date_of_birth: 'Дата рождения'
+        hide_year_of_birth: 'Скрыть год рождения'
+        gender: 'Пол'
+        locale: 'Язык интерфейса'
+        country: 'Страна'
+        city: 'Город'
+        about_me: 'О себе'
+        created: 'Профиль создан'
+        updated: 'Профиль обновлен'
+        profile_picture: 'Аватарка'
+        user: "Пользователь"
+        author: "Автор"
+        registered_as: "Зарегистрирован как"
+        email: "Email"
+        password: "Пароль"
+        private_info: Информация ниже видна только вам
+    edit:
+        submit: Обновить
+        update: 'Редактировать профиль'
+        change_password: 'Изменить пароль'
+    flash:
+        updated: Профиль пользователя обновлен
+
+# Password change
+change_password:
+    submit: Изменить пароль
+    title: Изменить пароль
+    flash:
+        success: Пароль изменен
+
+# Registration
+registration:
+    thanks: 'Благодарим за регистрацию'
+    agree_to_rule: 'Прочитал и согласен с правилами сайта'
+    check_email: Письмо отправлено на адрес %email%. В нём содержится ссылка, по которой вы можете подтвердить свою регистрацию.
+    redirect_to_page: Через несколько секунд вы будете перенаправленны на главную страницу сайта.
+    redirect_in: Вы будете перенаправлены через
+    seconds: секунд
+    confirmed: Поздравляем %username%, ваш аккаунт подтвержден.
+    waiting_for_you: 'С нетерпением ждем вас на нашем сайте.'
+    back: Вернуться на предыдущую страницу.
+    submit: Регистрация
+    create_user: 'Создать пользователя'
+    author_warning: 'ВАЖНО!!! На портале «На Тучке» Вы можете размещать только те материалы, создателем (автором) которых являетесь лично Вы.'
+    flash:
+        user_created: Пользователь успешно создан
+    email:
+        subject: Добро пожаловать, %username%!
+        message: |
+            Приветствуем, %username%!
+
+            Для подтверждения вашей регистрации, пройдите по ссылке %confirmationUrl%
+
+            С наилучшими пожеланиями,
+            команда сайта.
+
+# Password resetting
+resetting:
+    password_already_requested: Пароль для данного пользователя уже запрашивался за последние 24 часа.
+    check_email: Письмо на адрес %email% уже отправлено. Оно содержит ссылку, при переходе по которой ваш пароль будет сброшен.
+    heading: 'Сбросить пароль'
+    request:
+        invalid_username: Пользователь "%username%" не существует.
+        username: "Имя пользователя/никнейм:"
+        submit: Сбросить пароль
+    reset:
+        submit: Изменить пароль
+    flash:
+        success: Пароль успешно сброшен
+    email:
+        subject: Сброс пароля
+        message: |
+            Приветствуем, %username%!
+
+            Для сброса пароля, пожалуйста, пройдите по ссылке %confirmationUrl%
+
+            С наилучшими пожеланиями,
+            команда сайта.
+
+# Global strings
+layout:
+    logout: Выход
+    login: Вход
+    register: Регистрация
+    logged_in_as: Вы вошли как %username%
+
+# Form field labels
+form:
+    group_name: "Название группы:"
+    username: "Имя пользователя/никнейм:"
+    email: "Электронная почта:"
+    current_password: "Текущий пароль:"
+    password: "Пароль:"
+    password_confirmation: "Подтвердите пароль:"
+    new_password: "Новый пароль:"
+    new_password_confirmation: "Подтвердите пароль:"
+
+language:
+    ru: 'Русский'
+    ua: 'Украинский'
+    
+text:
+    login_page:
+        login: 'Логин'
+        login_text: 'Мы снова рады вас видеть. Для того чтобы получить доступ к функционалу сайта пожалуйста, выполните вход.'
+        registration_text: 'Пройдя регистрацию на нашем сайте вы сможете добавлять ваши произведения, комментировать работы других христиан, общаться и быть частью сообщества "На тучке".'
+    registration_page:
+        about_you: 'Немного о вас'
+        login_info: 'Данные для логина'
+        please_fill: 'Мы рады тому, что вы решили зарегистрироваться на сайте. Пожалуйста, заполните поля находящихся ниже.'
+    reset_password_page:
+        forgot_pass: 'Забыли пароль?'
+        text: 'Если вы зарегистрированны на нашем сайте, на вашу почту будет выслан новый пароль. Если будет выводиться сообщение что такого логина не существует, то либо вы забыли логин, либо вы не зарегистрированны.'

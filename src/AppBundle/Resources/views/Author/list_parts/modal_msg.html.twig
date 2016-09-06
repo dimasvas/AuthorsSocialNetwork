@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal fade author-modal-message" id="authorMessageModal" tabindex="-1" role="dialog" aria-labelledby="authorMessageModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="authorMessageModalLabel">
+
+                {% if app.user.imageName is empty  %}
+                    {% set user_profile_image =  default_user_profile  %}
+                {% else %}
+                    {% set user_profile_image =  vich_uploader_asset(app.user, 'imageFile') %}
+                {% endif %}
+
+                <img  width="30px" src="{{ user_profile_image }}" class="profile-image">
+
+                <span id="message-new-text"> {{ 'common.message_new' | trans({}, 'messages') }} </span>
+                <span id="message-sending-text" class="hidden"> {{ 'common.message_is_sending' | trans({}, 'messages') }}... </span>
+                
+            </div>
+                
+            <div class="modal-body">
+                <textarea class="form-control message-textarea" data-mailbox="{{ user.id }}"></textarea>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">{{ 'common.cancel' | trans({}, 'messages') }}</button>
+                <button type="button" class="btn btn-default btn-sm send-btn">{{ 'common.send' | trans({}, 'messages') }}</button>
+            </div>
+        </div>
+    </div>
+</div>

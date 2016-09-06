@@ -1,0 +1,48 @@
+{% extends 'AdminBundle:Basic:index.html.twig' %}
+    
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1><small>{{ 'admin.text.feedback' | trans }} </small></h1>
+    </section>
+
+    <section class="content"> 
+        <div class="row">
+            <div class="col-xs-12 box">
+                <div class="box-body ">
+                    <table class="table table-hover table-responsive no-padding">
+                        <tbody>
+                            <tr>
+                                <th>{{ 'admin.text.id' | trans }}</th>
+                                <th>{{ 'admin.text.name' | trans }}</th>
+                                <th>{{ 'admin.text.email' | trans }}</th>
+                                <th>{{ 'admin.text.message' | trans }}</th>
+                                <th>{{ 'admin.text.data' | trans }}</th>
+                                <th>{{ 'admin.text.closed' | trans }}</th>
+                            </tr>
+
+                            {% if pager.currentPageResults is empty %}
+                                <tr class="text-center"><td colspan="5">Ничего не найдено</td></tr>       
+                            {% endif %}
+                            
+                            {% for entity in pager.currentPageResults %}
+                                <tr>
+                                    <td>{{ entity.id }}</td>
+                                    <td><a href="{{ path('admin-feedback-show', { 'id': entity.id }) }}" target="_blank">{{ entity.name }}</a></td>
+                                    <td>{{ entity.email }}</td>
+                                    <td>{{ entity.message|length > 50 ? entity.message|slice(0, 50) ~ '...' : entity.message }}</td>
+                                    <td>{{ entity.created | date("d/m/Y h:i") }}</td>
+                                    <td>{{ entity.closed }}</td>
+                                </tr>    
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                    {% if pager.currentPageResults is not empty %}
+                        <div class="pull-right">{{ pagerfanta(pager, 'twitter_bootstrap3') }}</div>  
+                    {% endif %}
+                </div>
+            </div>
+        </div>    
+    </section>  
+{% endblock %}    

@@ -1,0 +1,151 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'index'}) }}
+{% endblock %}
+
+    {#<script type="text/javascript">
+        app.routing['comments_latest']= "{{ path('comments_latest_list')}}";
+        app.routing['composition_show']= "{{ path('composition_show', {id: '#'})}}";
+    </script>#}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts output='js/main.js'
+        '@validate_js'
+        '@AppBundle/Resources/public/js/plugins/validate_lang_switcher.js'
+        '@AppBundle/Resources/public/js/main_page.js' 
+        '@AppBundle/Resources/public/js/plugins/tabs.js'   
+    
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block content %}
+     <!-- header-bottom -->
+    <div class="header-bottom">
+       {# <div class="header-bottom-top">
+            <ul>
+                <li><a href="#" class="g"> </a></li>
+                <li><a href="#" class="p"> </a></li>
+                <li><a href="#" class="facebook"> </a></li>
+                <li><a href="#" class="twitter"> </a></li>
+            </ul>
+        </div>#}
+        <div class="clearfix"> </div>
+        <!-- banner -->
+        <div class="main-page-img hidden-xs">
+            <!--//End-slider-script -->
+            <div  id="top" class="callbacks_container wow fadeInUp hidden-xs" data-wow-delay="0.5s">
+                <ul class="rslides" id="main-slider">
+                    <li>
+                        <div class="main-page-img-inf">
+                            <h3>{{'text.main_page.banner_title_1' | trans}}</h3>
+                            <p>{{'text.main_page.banner_text_1' | trans}}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="main-page-img-inf">
+                            <h3>{{'text.main_page.banner_title_2' | trans}}</h3>
+                            <p>{{'text.main_page.banner_text_2' | trans}}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="main-page-img-inf">
+                            <h3>{{'text.main_page.banner_title_3' | trans}}</h3>
+                            <p>{{'text.main_page.banner_text_3' | trans}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="visible-xs">
+            <img src="/images/writer_place.jpg" class="img-responsive small-main-img">
+        </div>
+        <!-- //banner -->
+        <!-- banner-bottom -->
+        
+        <!-- blog -->
+        <div class="blog main-page">
+            <div class="blog-content">
+                <div class="sap_tabs">
+                    <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+                        <ul class="resp-tabs-list">
+                            <li class="resp-tab-item grid1" aria-controls="tab_item-0" role="tab"><span>{{ 'common.popular' | trans }}</span></li>
+                            <li class="resp-tab-item grid2" aria-controls="tab_item-1" role="tab"><span>{{ 'common.recent' | trans}}</span></li>
+                            <div class="clear"></div>
+                        </ul>
+                        <div class="resp-tabs-container">
+                            <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
+                                {% for entity in popular %}
+                                    <div class="facts">
+                                        <div class="tab_list">
+                                            <a href="{{ path('composition_show', {id: entity.id})}}" class="b-link-stripe b-animate-go   swipebox"  title="">
+                                                
+                                                {% if entity.imageName is null %}
+                                                    <img  width="150px" src="{{ default_composition_cover }}" class="img-responsive">
+                                                {% else %}
+                                                   <img width="150px" src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.title }}" class="img-responsive" />   
+                                                {% endif%}
+                                            </a>
+                                        </div>
+                                        <div class="tab_list1">
+                                            <a href="{{ path('composition_show', {id: entity.id})}}">{{ entity.title }}</a>
+                                            <p>{{ entity.created | date("m/d/Y")}}<span>{{ entity.description|length > 50 ? entity.description|slice(0, 50) ~ '...' : entity.description }}</span></p>
+                                        </div>
+                                        <div class="clearfix"> </div>
+                                    </div>
+                                {% endfor %}    
+                            </div>
+                            <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-1">
+                                 {% for entity in latest %}
+                                    <div class="facts">
+                                        <div class="tab_list">
+                                            <a href="{{ path('composition_show', {id: entity.id})}}" class="b-link-stripe b-animate-go   swipebox"  title="">
+                                                
+                                                {% if entity.imageName is null %}
+                                                    <img width="150px" src="{{ default_composition_cover }}" class="img-responsive">
+                                                {% else %}
+                                                   <img width="150px" src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.title }}" class="img-responsive" />   
+                                                {% endif%}  
+                                            </a>
+                                        </div>
+                                        <div class="tab_list1">
+                                            <a href="{{ path('composition_show', {id: entity.id})}}">{{ entity.title }}</a>
+                                            <p>{{ entity.created | date("m/d/Y")}}<span>{{ entity.description|length > 50 ? entity.description|slice(0, 50) ~ '...' : entity.description }}</span></p>
+                                        </div>
+                                        <div class="clearfix"> </div>
+                                    </div>
+                                {% endfor %} 
+                            </div>        
+                        </div>
+                    </div>
+                            
+                    <div class="newsletter ">
+                        <h3>{{'common.subscribe_to_news' | trans }}</h3>
+                        <form id="subscribe-form">
+                            <input type="text" id="email_input" name="email_input" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+                            <input type="submit" value="{{'common.send' | trans }}">
+                            <div><label for="email_input" class="validate error" generated="true" style="display:none"></label></div>
+                        </form>
+                    </div>
+{#
+                    <div class="pgs">
+                        <h3>{{'common.pages' | trans }}</h3>
+                        <ul>
+                            <li><a href="#">doloribus asperiores repellat</a></li>
+                            <li><a href="#">Itaque earum rerum hic tenetur</a></li>
+                            <li><a href="#">deserunt mollitia laborum et dolorum</a></li>
+                            <li><a href="#">facilis est et expedita distinctio</a></li>
+                            <li><a href="#">occaecati cupiditate non provident</a></li>
+                            <li><a href="#">deserunt mollitia laborum et dolorum</a></li>
+                        </ul>
+                    </div>#}
+                </div>
+            <div class="clearfix"> </div>
+        </div>
+        <!-- //blog -->
+    </div>
+{% endblock %}

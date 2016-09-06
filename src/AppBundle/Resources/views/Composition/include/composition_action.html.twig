@@ -1,0 +1,53 @@
+<li>
+    {% if favourite == false %}
+        <a id="to-favourite" 
+           class="favourite-link" 
+           data-container="body" 
+            data-toggle="popover" 
+            data-placement="top"
+            data-content='
+            <p><strong>{{ 'common.note' | trans}}:</strong> ({{ 'common.not_required' | trans}})</p>
+            <textarea cols=28 rows=10></textarea>
+            <div>
+                <div class="btn-group btn-group-xs" role="group">
+                    <button type="button" class="btn btn-default pop-send-favourite-btn" data-type="composition" data-id="{{ entity.id }}">{{ "common.add" | trans }}</button>
+                    <button type="button" class="btn btn-default pop-cancel-favourite-btn">{{ "common.cancel" | trans }}</button>
+                </div>
+            </div>'><span class="glyphicon glyphicon-bookmark" aria-hidden="true">
+            </span><span>{{ 'common.to_favourite' | trans }}</span>
+        </a>
+    {% else %}
+        <a class="favourite-link in-favourite" href="#"><span class="glyphicon glyphicon-bookmark" aria-hidden="true">
+            </span><span>{{ 'common.in_favourite' | trans }}</span>
+        </a>
+    {% endif %}    
+</li>
+<li>
+    {% if is_subscribed == false %}
+        <a id="subscribe" class="subscribe-link" href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true">
+            </span><span>{{ 'common.subscribe' | trans }}</span>
+        </a>
+    {% else %}
+      <a href="#" class="subscribe-link subscribed"><span class="glyphicon glyphicon-bell" aria-hidden="true">
+            </span><span>{{ 'common.subscribed' | trans }}</span>
+        </a>
+    {% endif %}  
+</li>
+
+
+<li>
+    <a  class="rule-violation-link"
+        data-container="body" 
+        data-toggle="popover" 
+        data-placement="top"
+        data-content='
+        <textarea cols=25 rows=5></textarea>
+        <div>
+            <div class="btn-group btn-group-xs" role="group">
+                <button type="button" class="btn btn-default pop-send-rule-btn" data-type="composition" data-id="{{ entity.id }}">{{ "common.send" | trans }}</button>
+                <button type="button" class="btn btn-default pop-cancel-rule-btn">{{ "common.cancel" | trans }}</button>
+            </div>
+        </div>'>
+        <small class="link"> </small><span>{{ 'common.rule_violation' | trans }}</span>
+    </a>
+</li>

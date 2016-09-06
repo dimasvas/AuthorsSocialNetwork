@@ -1,0 +1,110 @@
+<div class="col-lg-3 text-center">
+    {% if entity.imageName is empty  %}
+        <img  width="200px" class="composition-cover"  src="{{ default_composition_cover }}" class="profile-image">
+    {% else %}
+        <img width="200px" class="composition-cover"  src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.title }}" />
+    {% endif %}
+</div>   
+
+<div class="col-lg-9 list-info">
+        <div>
+            <div class="naming col-sm-4 col-xs-5">ID:</div>
+            <div class="naming-info col-sm-8 col-xs-7">{{ entity.id }}</div>
+        </div>
+        <div>
+            <div class="naming col-sm-4 col-xs-5">{{ 'common.rate' |trans }}:</div>
+            <div class="naming-info col-sm-8 col-xs-7">
+                <span class="rate-number">{{ entity.totalratingnum }}</span> / (<span class="rate-users">{{ entity.numusersrate }}</span>)
+            </div>
+        </div>
+        <div>
+            <div class="naming col-sm-4 col-xs-5">{{ 'common.language' |trans }}:</div>
+            <div class="naming-info col-sm-8 col-xs-7">{{ ('language.' ~ entity.language) | trans }}</div>
+        </div>
+        <div>
+            <div class="naming col-sm-4 col-xs-5">{{ 'common.genre' |trans }}:</div>
+            <div class="naming-info col-sm-8 col-xs-7" id="genre-field">
+                
+                {% for genre in entity.genres %}
+                   
+                     {{ ('genre.' ~ genre.alias) | trans }}
+
+                     {% if not loop.last %}
+                         {{', '}}
+                     {% endif %}
+                {% endfor %} 
+
+            </div>
+        </div>
+        <div>
+            <div class="naming col-sm-4 col-xs-5">{{ 'common.author' |trans }}:</div>
+            <div class="naming-info col-sm-8 col-xs-7"><a href="{{ path('author_show', {id: entity.user.id})}}">{{ entity.user.name}} {{ entity.user.surname}}</a></div>
+        </div>
+        <div>
+            <div class="naming col-sm-4 col-xs-5">{{ 'common.created' |trans }}:</div>
+            <div class="naming-info col-sm-8 col-xs-7">{{ entity.created|date('Y-m-d H:i:s') }}</div>
+        </div>
+        <div>
+            <div class="naming col-sm-4 col-xs-5">{{ 'common.last_update' |trans }}:</div>
+            <div class="naming-info col-sm-8 col-xs-7">{{ entity.updated|date('Y-m-d H:i:s') }}</div>
+        </div>
+        <div>
+            <div class="naming col-sm-4 col-xs-5">{{ 'common.composition_status' |trans }}:</div>
+            <div class="naming-info col-sm-8 col-xs-7" style="{% if entity.status == 'finished' %} color:#5cb85c; {% endif %}">
+                {{ ('composition_status.' ~ entity.status) | trans }}
+            </div>
+        </div>
+        <div>
+            <div class="naming col-sm-4 col-xs-5">{{ 'common.description'|trans }}:</div>
+            <div class="naming-info col-sm-8 col-xs-7" id="description-field">{{ entity.description }}</div>
+        </div>         
+
+        <div class="clearfix"></div>
+
+        {% if app.user and not isOwnerAuthor %}
+            <div class="user-row">
+                {% if favourite == true %}
+                    <div class="my-note">
+                        <div class="naming col-sm-4 col-xs-5"><b>{{ 'common.your_note'|trans }}:</b></div>
+                        <div class="naming-info col-sm-8 col-xs-7" id="description-field">
+                            {{ favourite.comment == false ? '-' : favourite.comment }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div>
+                    <div class="naming col-sm-4 col-xs-5"><b>{{ 'common.your_rate' |trans }}:  <span class="user-rate">{{ user_rate }}</span></b></div>
+                    <div class="naming-info col-sm-8 col-xs-7">&nbsp;</div>
+                </div>
+
+                <div>
+                    {% if app.user.id != entity.author.id %}
+                        <div class=" col-sm-4 col-xs-12 rating-stars">
+                            <input type="hidden" class="rating-tooltip" data-stop="10"/>
+                        </div>
+                    {% endif %}
+                    <div class="composition-rate col-sm-8 col-xs-12">
+                        {#<form class="form-inline ">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Статус</label>
+                                <select class="form-control composition-status" id="exampleInputName1">
+                                    <option>Не прочитанно</option>
+                                    <option>Читаю</option>
+                                    <option>Прочитал</option>
+                                </select>
+                            </div>
+                        </form>  #}
+                    </div>
+                </div>     
+            </div>
+        {% endif %}
+        
+        {% if entity.published or isOwnerAuthor and  entity.type.content %}
+            {% if entity.typeName in pagedTypes %}
+                <div class="btn-group action-bar" role="group" aria-label="Default button group">
+                    <a class="btn btn-default btn-sm" href="{{path('composition_type_show', {id: entity.id})}}">
+                        <span class="glyphicon glyphicon-edit"></span> {{'common.read' | trans }}
+                    </a>
+                </div>
+            {% endif %}    
+        {% endif %}
+</div> 

@@ -1,0 +1,133 @@
+<div class="comment-grid-top" id="comment-grid">
+        
+    <div class="table-form">
+        <form class="comments-input" id="comment-form">
+            <textarea class="main-comment-textarea"></textarea>	
+            <div class="clearfix"></div>
+            <input type="submit" value="{{ 'common.send' | trans }}">
+            <div class="comment-loader hidden" id="comment-loader">&nbsp;</div>
+        </form>
+    </div>
+			
+    <h3>{{ 'common.responses' | trans }}</h3>
+    
+    <!-- Comments List Container-->
+    <div id="comments-container">
+        <div class="no-comments hidden" id="no-comments"> 
+            <p>{{ 'common.no_comments' | trans }}</p>
+        </div>
+        
+        <!-- Comment Item -->
+        <div class="comments-top-top hidden" id="comment-template">
+            <div class="top-comment-left">
+                <a href="#" class="user-profile-link">
+                    <img class="img-responsive comment-user-img" src="" alt="">
+                </a>
+            </div>
+            <div class="top-comment-right">
+                <ul>
+                    <li><span class="left-at"><a href="#" class="user-name user-profile-link"></a></span></li>
+                    {#<li><span class="right-at comment-date"></span></li>#}
+                    <li class="comment-data"><span class="comment-date"></span><span class="comment-id"></span></li>
+                </ul>
+                <p class="comment-content"></p>
+                
+                <!-- Action Panel-->
+                <div class="comment-action-panel">
+                    <button type="button" class="btn btn-default btn-xs response-btn">{{ 'common.respond' | trans }}</button>
+                    
+                    <div class="reply-info-panel hidden">
+                        <a class="reply-count-container" href="#">
+                            <span class="glyphicon glyphicon-share-alt icon-flipped" aria-hidden="true"></span> 
+                            <span class="response-count"></span> {{ 'common.responses_has' | trans }}
+                        </a>
+                    </div>   
+                    <div class="like-dislike pull-right">
+                        <span class="vote-counter">0</span>
+                       
+                            <a class="like-btn"  data-toggle="tooltip" data-placement="top"
+                                    data-type="like"
+                                    title="{{ 'common.like' | trans}}">
+                                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                            </a>
+                            <a class="dislike-btn" data-toggle="tooltip" data-placement="top"
+                                    data-type="dislike"
+                                    title="{{ 'common.dislike' | trans}}">
+                                <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                            </a>
+                        
+                    </div>
+                       
+                </div>
+                <!-- End of Action Panel-->
+                
+              
+                
+                 
+                
+                <!-- Response input -->
+                <div class="response-to-comment hidden">
+                    <form class="comments-input subcomment-form">
+                        <textarea class="sub-comment-textarea"></textarea>	
+                        <div class="clearfix"></div>
+                        <input type="submit" value="Отправить"><div class="subcomment-loader hidden">&nbsp;</div>
+                    </form>
+                </div>
+                <!-- End of Response input -->
+            </div>
+            
+            
+            <div class="sucomment-container"></div> 
+            
+            <div class="clearfix"> </div>
+        </div> 
+        <!-- End of Comment Item -->
+        
+        <!-- Subcomment -->
+        <div class="subcomment subcomment-template hidden">
+            <div class="top-comment-left">
+                <a href="#" class="user-profile-link"><img class="img-responsive comment-user-img" src="" alt=""></a>
+            </div>
+            <div class="top-comment-right">
+                <ul>
+                    <li><span class="left-at"><a href="#" class="user-name user-profile-link"></a></span></li>
+{#                    <li><span class="right-at comment-date"></span></li>#}
+                    <li class="comment-data"><span class="comment-date"></span><span class="comment-id"></span></li>
+                </ul>
+                <p class="comment-content"></p>
+
+                <div class="comment-action-panel">
+                    <button type="button" class="btn btn-default btn-xs response-subcomment-btn">{{ 'common.respond' | trans }}</button>
+                    
+                    <div class="like-dislike pull-right">
+                        <span class="vote-counter">0</span>
+                       
+                            <a class="like-btn"  data-toggle="tooltip" data-placement="top"
+                                    data-type="like"
+                                    title="{{ 'common.like' | trans}}">
+                                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                            </a>
+                            <a class="dislike-btn" data-toggle="tooltip" data-placement="top"
+                                    data-type="dislike"
+                                    title="{{ 'common.dislike' | trans}}">
+                                <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                            </a>
+                        
+                    </div>
+                </div>
+
+                <div class="response-to-comment hidden">
+                    <form class="comments-input subcomment-form">
+                        <textarea class="sub-comment-textarea"></textarea>	
+                        <div class="clearfix"></div>
+                        <input type="submit" value="Отправить"><div class="subcomment-loader hidden">&nbsp;</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End of Subcomment -->
+    </div>
+    <!-- End of Comments List Container-->
+    
+    <div class="comment-pagination-container pagerfanta" id="comment-pagination-container"> </div>
+</div>  

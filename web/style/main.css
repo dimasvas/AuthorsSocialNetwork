@@ -1,0 +1,31 @@
+
+/********************** Forms Styles **********************/
+/* Add asterisk to required fields */
+.control-label.required:after {
+    content:"*";
+    color: #ff6154;
+    margin-left: 5px;
+}
+
+/*Overriding well background color*/
+.well {
+    background: rgb(255, 255, 255);
+}
+
+.form-field-group {
+    margin-bottom: 10px;
+}
+
+.error-list {
+    color: #ff6154;
+}
+
+
+
+
+/************** Author Show Page ***************/
+
+.new-comp-hidden-area {
+    display: none;
+}
+

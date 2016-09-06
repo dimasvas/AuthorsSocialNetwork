@@ -1,0 +1,68 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'login'}) }}
+{% endblock %}
+
+{% block register_login %}{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+    <div class="login">
+        <div class="login-grids">
+            <div class="col-md-6 log">
+                <h3>{{ 'text.login_page.login' | trans}}</h3>
+                <p>{{ 'text.login_page.login_text' | trans}}</p>
+  
+                {% if error %}
+                    <div class="error">{{ 'security.login.error' | trans }}</div>
+                {% endif %}
+                
+                <form  action="{{ path("fos_user_security_check") }}" method="post" id="login-form">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+                    <h5>{{ 'common.email'|trans }}</h5>
+                    <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" >
+                    
+                    <h5>{{ 'security.login.password'|trans }}</h5>
+                    <input type="password" class="form-control" id="password"  name="_password" required="required">
+                    
+                    <div class="checkbox">
+                        <label for="remember_me">
+                            <input type="checkbox" id="remember_me" name="_remember_me"> {{ 'security.login.remember_me'|trans }}
+                        </label>
+                    </div>
+
+                    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}">
+{#                    <div class="g-recaptcha" data-sitekey="6LcCih0TAAAAAN3jq5yaO4mX3ZjBPD5MBe9EFc4_"></div>#}
+                </form>
+                    
+                <a href="{{ path("fos_user_resetting_request") }}">{{ 'security.login.password_forget' | trans }}</a>
+                
+            </div>
+            <div class="col-md-6 login-right">
+                <h3>{{'layout.register' | trans }}</h3>
+                <p>{{ 'text.login_page.registration_text' | trans}}</p>
+                <a href="{{ path('fos_user_registration_register') }}" class="hvr-bounce-to-bottom button">{{'layout.register' | trans }}</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+       {{ parent() }}
+        
+        {% javascripts  
+            '@validate_js'
+            '@validate_js_extra'
+            '@AppBundle/Resources/public/js/plugins/validate_lang_switcher.js'
+            '@UserBundle/Resources/public/js/login.js'
+            output='js/login.js' 
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+{% endblock %}

@@ -1,0 +1,7 @@
+
+<a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'ru'})) }}">
+    {{ 'language.short_ru' | trans }}
+</a>
+<a href="{{  path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'ua'}))}}">
+    {{ 'language.short_ua' | trans }}
+</a>

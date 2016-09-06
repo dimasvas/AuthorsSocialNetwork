@@ -1,0 +1,15 @@
+<div class="row search-wrapper">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 pull-right search-inner-wrapper">
+        <div class="input-group">
+            <input type="text" class="form-control" id="top-search-input" placeholder="{{ 'form.placeholder.comp_or_author' | trans }}">
+
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </span>
+        </div><!-- /input-group -->
+        <div id="results-container" class="hidden">
+            <div id="no-search-results" class="hidden">{{ 'common.nothing_found' | trans }}</div>
+            <table id="search-result-table" class="table table-hover table-condensed"></table>
+        </div>
+    </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->

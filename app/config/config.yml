@@ -1,0 +1,306 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: doctrine_extensions.yml }
+    - { resource: assetic.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: "%default_locale%"
+    
+    attachment_dir: /uploads/attachment/
+    
+    dirs:
+        attachment_dir: /uploads/attachment/
+        full_attachment_dir: %kernel.root_dir%/../web/uploads/attachment/
+        tmp: %kernel.root_dir%/../web/tmp/
+        composition_img: %kernel.root_dir%/../web/media/composition/cover/
+        composition_img_uri: /media/composition/cover/
+        
+        user_img: %kernel.root_dir%/../web/media/user/profile/
+        user_img_uri: %kernel.root_dir%/../web/media/user/profile/
+
+framework:
+    #esi:             ~
+    translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.pdo
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments:       ~
+    http_method_override: true
+    assets: ~
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+    form_themes:
+        - 'VichUploaderBundle:Form:fields.html.twig'
+        - bootstrap_3_layout.html.twig
+    
+    globals:
+        attachment_dir: "%attachment_dir%"
+        default_composition_cover: '/media/composition/default/no_book_cover.gif'
+        default_composition_thumb: '/media/composition/default/composition_thumb.png'
+        
+        default_user_profile: '/media/user/default/no_avatar.png'
+        domain_name: "%domain_name%"
+        prod_domain: 'natuchke.org'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #     path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+#        metadata_cache_driver: redis
+#        # enable query caching
+#        query_cache_driver: redis
+        
+        mappings:
+            translatable:
+                type: annotation
+                is_bundle: false
+                prefix: Gedmo\Translatable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                alias: GedmoTranslatable    
+
+#snc_redis:
+#    clients:
+#        default:
+#            type: predis
+#            alias: default
+#            dsn: redis://localhost
+#        doctrine:
+#            type: predis
+#            alias: doctrine
+#            dsn: redis://localhost     
+            
+#    doctrine:
+#        metadata_cache:
+#            client: doctrine
+#            entity_manager: default
+#            document_manager: default
+#        result_cache:
+#            client: doctrine
+#            entity_manager: [default]
+#            namespace: "doctrine_result_cache_%kernel.environment%_"
+#        query_cache:
+#            client: doctrine
+#            entity_manager: default     
+            
+            
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    username:  '%mailer_user%'
+    password:  '%mailer_password%'
+    spool:     { type: memory }
+    
+# FOS User Bundle Configuration
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: UserBundle\Entity\User
+#    group:
+#          group_class: UserBundle\Entity\Group w
+    from_email:
+#            address:        webmaster@example.com
+            sender_name:    "На тучке"
+    registration:
+            form:
+                type: UserBundle\Form\Type\RegistrationFormType
+            confirmation:
+                enabled:    true
+    profile:
+            form:
+                type: app_user_profile    
+
+#fos_elastica:
+#    clients:
+#            default: { host: localhost, port: 9200 }
+#    indexes:
+#        test:
+#            types:
+#                comp:
+#                    mappings:
+#                        title: ~
+#                        description: ~
+#                       
+#                    persistence:
+#                        driver: orm
+#                        model: AppBundle\Entity\Composition
+#                        provider: ~
+#                        listener:
+#                            immediate: ~
+#                        finder: ~
+                  
+knp_menu:
+    twig:
+        template: menus/knp.menu.extended.html.twig
+
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        composition_cover:
+            uri_prefix:         /media/composition/cover
+            upload_destination: %kernel.root_dir%/../web/media/composition/cover/
+            namer:              vich_uploader.namer_uniqid
+
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+
+        profile_image:
+            uri_prefix:         /media/user/profile
+            upload_destination: %kernel.root_dir%/../web/media/user/profile/
+            namer:              vich_uploader.namer_uniqid
+
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+            
+white_october_pagerfanta:
+    exceptions_strategy:
+        out_of_range_page:        to_http_not_found
+        not_valid_current_page:   to_http_not_found
+     
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     'localhost'
+            port:     5672
+            user:     'natuchke_rmq'
+            password: 'M63t7NJ3Zv'
+            vhost:    '/'
+            lazy:     false
+            connection_timeout: 3
+            read_write_timeout: 3
+
+            # requires php-amqplib v2.4.1+ and PHP5.4+
+            keepalive: false
+
+            # requires php-amqplib v2.4.1+
+            heartbeat: 0
+            
+    producers:
+        composition_send_update:
+            connection:       default
+            exchange_options: {name: 'send-update', type: direct}
+            class: AppBundle\Service\RabbitMQ\Producer\SendUpdateProducer
+            
+        send_message:
+            connection:       default
+            exchange_options: {name: 'send-message', type: direct}
+            class: AppBundle\Service\RabbitMQ\Producer\SendMessageProducer   
+            
+        composition_process_text:
+            connection:       default
+            exchange_options: {name: 'process-text', type: direct}
+            class: AppBundle\Service\RabbitMQ\Producer\ProcessTextProducer  
+            
+        user_vote:
+            connection:       default
+            exchange_options: {name: 'user-vote', type: direct}
+            class: AppBundle\Service\RabbitMQ\Producer\VoteProducer      
+            
+    consumers:
+        composition_send_update:
+            connection:       default
+            exchange_options: {name: 'send-update', type: direct}
+            queue_options:    {name: 'send_update'}
+            callback:         app.send_update_service 
+            
+        send_message:
+            connection:       default
+            exchange_options: {name: 'send-message', type: direct}
+            queue_options:    {name: 'send_message'}
+            callback:         app.send_message_service  
+            
+        composition_process_text:
+            connection:       default
+            exchange_options: {name: 'process-text', type: direct}
+            queue_options:    {name: 'process_text'}
+            callback:         app.process_text_service    
+            
+        user_vote:
+            connection:       default
+            exchange_options: {name: 'user-vote', type: direct}
+            queue_options:    {name: 'user_vote'}
+            callback:         app.vote_consumer_service      
+            
+    rpc_clients:
+        send_message_client:
+            connection: default
+            unserializer: json_decode
+    rpc_servers:
+        send_message_server:
+            connection: default
+            callback:   app.send_message_server
+            qos_options: {prefetch_size: 0, prefetch_count: 1, global: false}
+            exchange_options: {name: send_message_server, type: topic}
+            queue_options: {name: send_message_server_queue, durable: false, auto_delete: true}
+            serializer: json_encode        
+
+# When php_max size is reached no verbose error is triggered (just no composition id)
+oneup_uploader:
+    mappings:
+        attachment:
+            frontend: custom
+            custom_frontend:
+                class: AppBundle\Controller\CustomUploaderController
+                name: AppCustomUploader    
+#                allowed_mimetypes:     ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'audio/mpeg', 'audio/mp3']        
+                
+gos_web_socket:
+    server:
+        port: 8080        #The port the socket server will listen on
+        host: %domain_name%   #The host ip to bind to   
+        router:
+            resources:
+                - "@AppBundle/Resources/config/pubsub/routing.yml"
+    client:
+        firewall: main
+        session_handler: "@session.handler.pdo"
+        
+    pushers:
+        wamp:
+            host: %domain_name%
+            port: 8080 #wamp port must be the same as server port    
+            
+bazinga_js_translation:
+    locale_fallback: ru
+    default_domain: messages

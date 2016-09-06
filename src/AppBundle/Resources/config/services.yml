@@ -1,0 +1,193 @@
+parameters:
+    app.security.composition_voter.class: AppBundle\Security\CompositionVoter
+    app.security.favourite_voter.class: AppBundle\Security\FavouriteVoter
+    app.security.subscribtion_voter.class: AppBundle\Security\SubscribtionVoter
+    app.security.comment_voter.class: AppBundle\Security\CommentVoter
+    app.security.message_voter.class: AppBundle\Security\MessageVoter
+    app.security.message_thread_voter.class: AppBundle\Security\MessageThreadVoter
+    app.ajax.authentication.listener: AppBundle\EventListener\AjaxAuthenticationListener
+    
+    app.xss_filter.class: AppBundle\Service\XssFilter
+    app.text_processor.class: AppBundle\Service\TextProcessor
+    
+    app.pager.class: AppBundle\Service\Pager
+    app.pagination.class: AppBundle\Service\Pagination
+    app.locale.class: AppBundle\Service\AppLocale
+    app.user_checker.class: AppBundle\Service\UserChecker
+    app.object_to_array_adapter: AppBundle\Service\ObjectToArrayAdapter
+    
+    app.composition.update_consumer.class: AppBundle\Service\RabbitMQ\Consumer\SendUpdateConsumer
+    app.composition.message_consumer.class: AppBundle\Service\RabbitMQ\Consumer\SendMessageConsumer
+    app.composition.process_text_consumer.class: AppBundle\Service\RabbitMQ\Consumer\ProcessTextConsumer
+    app.vote_consumer.class: AppBundle\Service\RabbitMQ\Consumer\VoteConsumer
+    
+    app.app.message.topic.class: AppBundle\Service\WebSocket\MessageTopic
+    
+    app.composition_update_serializer.class: AppBundle\Service\Serializer\CompositionUpdateSerializer
+    app.composition_subscribtion_serializer.class: AppBundle\Service\Serializer\CompositionSubscribtionSerializer
+    app.upload_listener.class: AppBundle\Listener\UploadListener
+    app.user.serializer.class: AppBundle\Service\Serializer\UserSerializer
+    app.ajax_upload_image.class: AppBundle\Service\AjaxUploadImageHandler
+    app.delete_attachment.listener.class: AppBundle\EventListener\DeleteAttachmentListener
+    app.archive_compositon.class: AppBundle\Service\ArchiveHandler
+
+services:
+# Security Voters and Auth    
+    app.composition_voter:
+        class: %app.security.composition_voter.class%
+        tags:
+            - { name: security.voter }
+        # small performance boost
+        public: false
+        
+    app.favourite_voter:
+        class: %app.security.favourite_voter.class%
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags:
+            - { name: security.voter }
+        public: false  
+        
+    app.subscribtion_voter:
+        class: %app.security.subscribtion_voter.class%
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags:
+            - { name: security.voter }
+        public: false   
+     
+    app.comment_voter:
+        class: %app.security.comment_voter.class%
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags:
+            - { name: security.voter }
+        public: false     
+        
+    app.message_voter:
+        class: %app.security.message_voter.class%
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags:
+            - { name: security.voter }
+        public: false   
+          
+    app.message_thread_voter:
+        class: %app.security.message_thread_voter.class%
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags:
+            - { name: security.voter }
+        public: false      
+
+    ajax.authentication.listener:
+        class: %app.ajax.authentication.listener%
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception, method: onCoreException, priority: 1000 }        
+      
+#Security XSS filtering
+    app.xss_filter:
+         class: %app.xss_filter.class%
+         tags:
+             - { name: app.xss_filter }
+         
+    app.text_processor:
+         class: %app.text_processor.class%
+         arguments: [ "@app.xss_filter" ]
+
+# Locale listeners        
+    app.locale:
+        class: %app.locale.class%
+    
+    app.user_locale_listener:
+        class: AppBundle\EventListener\UserLocaleListener
+        arguments: ['@session']
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }        
+            
+    pager:
+        class: %app.pager.class%
+        arguments:
+            router: "@router"
+
+# Serializers
+    object_to_array_adapter:
+        class: %app.object_to_array_adapter%
+        arguments:
+            router: "@router"
+
+    app.pagination:
+            class: %app.pagination.class%
+            arguments: ["@router", "@jms_serializer"]
+                
+    app.composition_update_serializer:
+        class: %app.composition_update_serializer.class%
+      
+    app.composition_subscribtion_serializer:
+        class: %app.composition_subscribtion_serializer.class%    
+        
+    app.user_serializer_service:
+        class: %app.user.serializer.class%
+        arguments: [ "@router", "@serializer" ]    
+        
+ # RabbitMQ Consumers      
+    app.send_update_service:
+        class: %app.composition.update_consumer.class%
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        
+    app.send_message_service:
+        class: %app.composition.message_consumer.class%
+        arguments: [ "@doctrine.orm.entity_manager", "@security.token_storage", "@gos_web_socket.wamp.pusher" ]   
+        
+    app.process_text_service:
+        class: %app.composition.process_text_consumer.class%
+        arguments: [ "@doctrine.orm.entity_manager" ] 
+        
+    app.send_message_server:
+        class: AppBundle\Service\RabbitMQ\Server\SendMessageServer
+        arguments: [ "@doctrine.orm.entity_manager", "@security.token_storage", "@jms_serializer"] 
+        
+    app.vote_consumer_service:
+        class: %app.vote_consumer.class%
+        arguments: [ "@doctrine.orm.entity_manager" ]        
+    
+#    app.send_message_client: 
+#        class: AppBundle\Service\RabbitMQ\Server\SendMessageClient
+#        arguments: ["@old_sound_rabbit_mq.send_message_client_rpc", "%rabbitmq.rpc.server%"]
+
+
+#WebSockets
+    app.message.topic:
+        class: %app.app.message.topic.class%
+        arguments: ["@gos_web_socket.websocket.client_manipulator"]
+        tags:
+            - { name: gos_web_socket.topic }
+        
+ #Uploaders       
+    app.upload_listener:
+        class: %app.upload_listener.class%
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }  
+    
+    app.ajax_upload_image_handler:
+        class: %app.ajax_upload_image.class%
+        arguments: ["@request_stack", "@security.token_storage", %dirs%]      
+    
+#Other App Services    
+    app.user_checker:
+        class: %app.user_checker.class%
+        arguments: ["@security.authorization_checker", "@security.token_storage"]
+        
+    
+    app.datatable.post:
+        class: UserBundle\Datatables\UserDatatable
+        tags:
+            - { name: sg.datatable.view }
+        
+    
+    app.delete_attachment.listener:
+        class: %app.delete_attachment.listener.class%
+        tags:
+            - { name: doctrine.event_listener, event: preRemove }    
+        arguments: ["%dirs%"]    
+    
+    
+    app.archive_compositon: 
+        class: %app.archive_compositon.class%
+        

@@ -1,0 +1,135 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'about_us'}) }}
+{% endblock %}
+
+{#{% block stylesheets %}
+        {% stylesheets
+        filter='cssrewrite' output='compiled/app.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+    #}
+
+{% block content %}
+    <h1 class="text-center">{{ 'common.search' | trans }}</h1>
+
+    <div class="row text-center">
+        <div class="col-lg-offset-2 col-lg-8">
+            <div class="input-group">
+                <input type="text" class="form-control" id="search-text" placeholder="{{ 'common.let_search' | trans }}...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" id="search-submit" type="button">{{ 'common.search' | trans }}</button>
+                </span>
+            </div>
+                <div id="tags-container" class="text-left">
+                    <span id="category-tag"></span>
+                    <span id="genre-tag"></span>
+                    <span id="language-tag"></span>
+                    <span id="status-tag"></span>
+                </div>    
+            <div class="extendent-search">
+                <div class="loading-indicator hidden"></div>
+                <a class="btn extended-search-btn" 
+                    role="button" 
+                    data-toggle="collapse"
+                    href="#collapse-extended" 
+                    aria-expanded="false" 
+                    aria-controls="collapse-extended">
+
+                    {{ 'common.additional_parametres' | trans }}
+                </a>
+                
+                <div class="clearfix"></div>
+                
+                <div class="collapse" id="collapse-extended">
+                    <div class="inner-collapse text-left">
+
+                        <div id="category-select" class="col-lg-6 col-md-6 col-sm-6">
+                          {{ form_label(category_form.category) }}
+                          {{ form_widget(category_form.category) }}
+                        </div>
+
+                        <div id="language-select" class="col-lg-6 col-md-6 col-sm-6">
+                          {{ form(language_form) }}
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group hidden" id="genre-wrapper">
+                                <label for="genre-select-field">{{ 'common.genre' | trans }}</label>
+                                <select id="genre-select-field" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="status-select col-lg-6 col-md-6 col-sm-6">
+                            {{ form(status_form) }}
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                    </div>
+
+                    {{ form_widget(category_form._token) }}
+            </div>
+            </div>    
+        </div>
+            
+        <div class="clearfix"></div>   
+        
+        <div class="row margin-small">
+            <div id="no-results" class="hidden">{{ 'common.nothing_found' | trans }}</div>
+
+            <div id="result-wrapper" class="text-left"></div>
+
+            <div class="clearfix"></div>
+            
+            <div class="pagination-wrapper"></div>
+            
+             <div class="col-lg-6 search-item hidden" id="result-template">
+                    <div class="media">
+                        <div class="media-left">
+                          <a href="#">
+                            <img class="media-object" width="140px" src="/media/composition/default/no_book_cover.gif" alt="...">
+                          </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a href="#">Название произвдедения</a>
+                            </h4>
+                            <div class="media body">
+                                <div class="row">
+                                    <div class="col-lg-3 heading">{{ 'common.author' | trans }}:</div>
+                                    <div class="col-lg-6" id="author"><a href="">sdadas</a></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 heading">{{ 'common.type' | trans }}:</div>
+                                    <div class="col-lg-6" id="type">sdadas</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 heading">{{ 'common.status' | trans }}:</div>
+                                    <div class="col-lg-6" id="status">sdadas</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 heading">{{ 'common.rate' | trans }}:</div>
+                                    <div class="col-lg-6" id="rate">sdadas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>    
+    </div>
+    
+{% endblock %}
+
+{% block javascripts %}
+        {{ parent() }}
+        
+        {% javascripts  output='js/search_page.js'  
+            '@AppBundle/Resources/public/js/search_page.js'            
+        %}
+    
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

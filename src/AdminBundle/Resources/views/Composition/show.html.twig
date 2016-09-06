@@ -1,0 +1,140 @@
+{% extends 'AdminBundle:Basic:index.html.twig' %}
+
+{% block content %}
+      <section class="content-header">
+        <h1>{{'admin.text.composition' | trans }} </h1>
+        
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i> {{ 'admin.menu.items.users' | trans }}</a></li>
+            <li class="active">{{ 'admin.text.composition' | trans }}</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-3">
+          <!-- Profile Image -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+                {% if entity.imageName is empty  %}
+                    <img class="profile-user-img img-responsive img-circle" src="/img/composition/no_book_cover.gif" alt="Composition">
+                {% else %}
+                    <img class="profile-user-img img-responsive img-circle" src="{{ vich_uploader_asset(entity, 'imageFile') }}" alt="{{ entity.title }}">
+                {% endif %}
+
+                <h3 class="profile-username text-center">{{ entity.title }}</h3>
+                
+                <p class="text-muted text-center">{{entity.category.name }}</p>
+
+                
+                {% if entity.blocked %}
+                  <p class=" text-center">
+                    <span class="label label-danger">{{ 'admin.text.locked' | trans }}</span>
+                  </p>
+                {% endif %}
+                
+            </div>
+          </div>
+        </div><!-- /.col -->
+        
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#activity" data-toggle="tab">{{ 'admin.text.about_composition' | trans }}</a></li>
+              <li><a href="#settings" data-toggle="tab">{{ 'admin.text.settings' | trans }}</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane" id="activity">
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>Инфо</th>
+                                <th>Подробно</th>
+                            </tr>
+                            <tr>
+                                <td>{{ 'common.rate' |trans }}</td>
+                                <td>{{ entity.totalratingnum }} / {{ entity.numusersrate }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'common.language' |trans }}</td>
+                                <td>{{ ('language.' ~ entity.language) | trans }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'common.genre' |trans }}</td>
+                                <td>
+                                    {% for genre in entity.genres %}
+                   
+                                        {{ ('genre.' ~ genre.alias) | trans }}
+
+                                        {% if not loop.last %}
+                                            {{', '}}
+                                        {% endif %}
+                                   {% endfor %} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'common.author' |trans }}</td>
+                                <td><a href="{{ path('author_show', {id: entity.author.id})}}" target="_blank">{{ entity.author.user.name}} {{ entity.author.user.surname}}</a></td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'common.created' |trans }}</td>
+                                <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'common.last_update' |trans }}</td>
+                                <td>{{ entity.updated|date('Y-m-d H:i:s') }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'common.composition_status' |trans }}</td>
+                                <td>{{ ('composition_status.' ~ entity.status) | trans }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'common.description'|trans }}</td>
+                                <td>{{ entity.description }}</td>
+                            </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div><!-- /.tab-pane -->
+              
+
+
+                <div class="tab-pane" id="settings">
+                    <div>{{ 'admin.text.composition_is_blocked' | trans }}</div>  
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" data-composition="{{ entity.id }}" {{ entity.blocked ? "checked" : ""}}>
+                        <label class="onoffswitch-label" for="myonoffswitch">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+                    
+            </div><!-- /.tab-content -->
+          </div><!-- /.nav-tabs-custom -->
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+
+    </section><!-- /.content -->
+{% endblock %}   
+
+{% block javascript %}
+    {{ parent() }}
+ 
+    {% javascripts  
+        '@AdminBundle/Resources/public/vendors/plugins/datatables/jquery.dataTables.min.js'
+        '@AdminBundle/Resources/public/vendors/plugins/datatables/dataTables.bootstrap.min.js'
+        '@AdminBundle/Resources/public/js/composition.js'
+        output='admin-panel/compiled/composition.js'  %}
+        
+        <script src="{{ asset_url }}"></script>
+        
+        <script>
+            AppAdmin.Data['author_id'] = "{{ entity.author.id}}"
+        </script>    
+    {% endjavascripts %}
+   
+{% endblock %}  

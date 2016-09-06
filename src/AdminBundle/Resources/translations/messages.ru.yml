@@ -1,0 +1,74 @@
+admin:
+    menu:
+        items:
+            dashboard: "Личный кабинет"
+            users: "Пользователи"
+            active: "Активные"
+            feedback: 'Отзывы'
+            blocked: "Блокированные"
+            nonactive: "Неактивные"
+            search: "Поиск"
+            compositions: "Произведения"
+            published: "Оубликованные"
+            non_published: "Неопубликованные"
+            messages: "Сообщения"
+            rule_violation: Нарушение правил
+        titles:
+            main_menu: "ГЛАВНОЕ МЕНЮ"
+    text:
+        action: 'Действие'
+        about_user: "О пользователе"
+        about_composition: 'О произведении'
+        author: "Автор"
+        blocked: "Заблокирован"
+        control_panel: "Панель управления"
+        closed: "Закрыто"
+        compositions: "Произведения"
+        composition: "Произведение"
+        composition_control: 'Управление произведением'
+        composition_is_blocked: "Произведение блокированно"
+        compositions_search: "Поиск произведений"
+        created: 'Создан'
+        dashboard: "Личный кабинет"
+        data: "Дата"
+        delete: "Удалить"
+        email: "Email"
+        feedback: "Отзывы"
+        genre: "Жанр"
+        has_subscribers: "Подписчиков"
+        has_compositions: "Произведений"
+        has_comments: "Комментариев"
+        id: "ID"
+        logout: "Выйти"
+        locked: "Заблокирован"
+        message: "Сообщение"
+        messaging: "Переписка"
+        more: 'Подробнее'
+        name: "Имя"
+        profile: "Профиль"
+        rate: "Рейтинг"
+        reporter: 'Заявитель'
+        registered: "Зарегестрирован"
+        rule_violation: 'Нарушение'
+        search: "Поиск"
+        search_result: "Результаты поиска"
+        settings: "Управление"
+        status: "Статус"
+        title: "Название"
+        user: "Пользователь"
+        username: "Ник"
+        users: "Пользователи"
+        users_active: "Активные"
+        users_blocked: "Блокированные"
+        users_nonactive: "Неактивные"
+        users_control: "Управление пользователями"
+        users_profile: "Профиль"
+        user_profile: "Профиль пользователя"
+        users_search: "Поиск пользователей"
+        user_is_blocked: "Пользователь блокированн"
+        
+    status:
+        open: 'Откртыт'
+        in_process: 'Рассматривается'
+        closed: 'Закрыь'
+        

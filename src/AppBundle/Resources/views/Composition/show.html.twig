@@ -1,0 +1,94 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'comosition_show', 'title': entity.title, 'type' : entity.category.name }) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets
+    'vendor/Croppie/croppie.css'
+    'vendor/blueimp-file-upload/css/jquery.fileupload.css'
+    'vendor/lightbox2/dist/css/lightbox.min.css'
+    filter='cssrewrite' output='css/composition.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    
+{% endblock %}
+
+{% block content %}
+    <div class="composition-page">
+        <h1 class="text-center">
+            <span class="composition-type">{{('category.'~ entity.category.alias) | trans }}</span> 
+            <span id="composition-title">"{{ entity.title }}"</span>
+        </h1>
+        
+        {% if not entity.archived %}
+            {{ include('AppBundle:Composition:tabs/basic_active.html.twig') }}
+        {% else %}
+            {{ include('AppBundle:Composition:tabs/basic_archived.html.twig') }}
+        {% endif %}
+            
+    <div class="clearfix"></div>
+    
+    {% if app.user %}
+        {% if not entity.blocked %}
+            {% include "AppBundle:Comment:index.html.twig" %}
+        {% else %}
+            <p class="text-center comment-no-avail"> 
+                {{ 'common.comment_blocked' | trans }}
+            </p>
+        {% endif %}  
+    {% else %}
+        <p class="text-center comment-no-avail"> 
+                {{ 'common.register_to_comment' | trans }}
+            </p>
+    {% endif %}    
+        
+    </div>
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+   
+    <script type="text/javascript">
+        App.data.composition = "{{ entity.id}}";
+        App.data.upload_dir = "{{ attachment_dir }}";
+        App.data.isOwner = "{{ isOwnerAuthor }}";
+        App.data.isBlocked = "{{ entity.blocked }}";
+        App.data.type = "{{ entity.typeName }}";
+
+    </script>  
+        <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+        <script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+        
+        
+    {% javascripts  output='js/composition.js'  
+        
+        'vendors/rating/bootstrap-rating.min.js'
+        '@validate_js'
+        '@validate_js_extra'
+        '@AppBundle/Resources/public/js/plugins/validate_lang_switcher.js'
+        '@croppie_js'
+        '@AppBundle/Resources/public/js/croppie_handler.js'
+        '@AppBundle/Resources/public/js/composition.js'
+        '@AppBundle/Resources/public/js/plugins/tabs.js'
+        'vendor/lightbox2/dist/js/lightbox.min.js'
+
+        'vendor/blueimp-file-upload/js/vendor/jquery.ui.widget.js'
+        'vendor/blueimp-file-upload/js/jquery.iframe-transport.js'
+        'vendor/blueimp-file-upload/js/jquery.fileupload.js'
+        'vendor/blueimp-file-upload/js/jquery.fileupload-process.js' 
+        'vendor/blueimp-file-upload/js/jquery.fileupload-image.js' 
+        'vendor/blueimp-file-upload/js/jquery.fileupload-audio.js' 
+        'vendor/blueimp-file-upload/js/jquery.fileupload-validate.js'
+        '@AppBundle/Resources/public/js/attachment.js' 
+        '@AppBundle/Resources/public/js/comments.js'
+        '@AppBundle/Resources/public/js/rule_violation.js'
+        '@AppBundle/Resources/public/js/like_dislike.js'
+    %}
+    
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

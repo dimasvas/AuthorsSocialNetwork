@@ -1,0 +1,23 @@
+services:
+    t_user.registration.form.type:
+        class: UserBundle\Form\Type\RegistrationFormType
+        tags:
+            - { name: form.type, alias: app_user_registration}
+
+    t_user.profile.form.type:
+        class: UserBundle\Form\Type\ProfileFormType
+        tags:
+            - { name: form.type, alias: app_user_profile}
+
+    t_user.registration.listener:
+        class: UserBundle\EventListener\UserRegistrationListener
+        tags:
+            - { name: kernel.event_subscriber, event: fos_user.registration.completed, method: onRegistrationCompleted }
+            - { name: kernel.event_subscriber, event: fos_user.registration.success, method: onRegistrationSuccess }
+        arguments: [ "@doctrine.orm.entity_manager" , "@router"]
+
+    t.user.profile_edit.listener:
+        class: UserBundle\EventListener\ProfileEditListener
+        tags:
+            - { name: kernel.event_subscriber, event: fos_user.profile.edit.completed, method:  onProfileEditSuccess }
+        arguments: [ "@doctrine.orm.entity_manager", "@security.token_storage"]

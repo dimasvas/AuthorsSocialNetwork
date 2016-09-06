@@ -1,0 +1,14 @@
+{% if app.user %}
+    <div class="sign-in">
+        <ul>
+            <li><a href="{{ path('fos_user_security_logout') }}"> {{ 'menu.logout' | trans }}</a></li>
+        </ul>
+    </div>
+{% else %}
+    <div class="sign-in">
+        <ul>
+            <li><a href="{{ path('fos_user_security_login', {_locale: app.request.locale}) }}">{{ 'menu.login' | trans }} </a>/</li>
+            <li><a href="{{ path('fos_user_registration_register') }}">{{ 'menu.register' | trans }}</a></li>
+        </ul>
+    </div>
+{% endif %}

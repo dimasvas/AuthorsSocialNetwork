@@ -1,0 +1,5 @@
+<div class="pagerfanta text-center">
+    {% if pager.getNbPages > 1 %}
+        {{ pagerfanta(pager, 'twitter_bootstrap3', {prev_message: '← Пред', next_message: 'След →'}) }}
+    {% endif %}
+</div>

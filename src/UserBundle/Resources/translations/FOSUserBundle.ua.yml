@@ -1,0 +1,171 @@
+common:
+    about_me: "Про себе"
+    account: "Акаунт"
+    again_password: 'Ще раз новий пароль'
+    cancel: "Відмінити"
+    change: 'Змінити'
+    change_email: 'Змінити Email'
+    change_password: 'Змінити Пароль'
+    city: "Місто"
+    country: "Країна"
+    current_password: 'Поточний пароль'
+    edit: "Редагувати"
+    email: 'Email'
+    gender:
+        male: "Чоловіча"
+        female: "Жіноча"
+    hide_year_of_birth: "Приховати рік народження"
+    loading: 'Завантажується'
+    new_password: 'Новый пароль'
+    no: "Ні"
+    settings: "Налаштування"
+    show_alias_name: "Відображати псевдонім"
+    password: "Пароль"
+    profile: "Профіль"
+    update: "Оновити"
+    yes: "Так"
+
+# Group
+group:
+    edit:
+        submit: "Оновити групу"
+    show:
+        name: "Назва групи"
+    new:
+        submit: "Створити групу"
+    flash:
+        updated: "Група оновлена"
+        created: "Група створена"
+        deleted: "Група видалена"
+
+# Security
+security:
+    login:
+        username: "Ім'я користувача / нікнейм:"
+        password: "Пароль:"
+        remember_me: "Запам'ятати мене"
+        submit: "Увійти"
+        password_forget: "Забули пароль?"
+        error: 'Невірний email або пароль'
+
+# Profile
+profile:
+    show:
+        username: "Ім'я користувача / нікнейм:"
+        nickname: 'Никнэйм'
+        email: "Електронна пошта"
+        name: "Ім'я"
+        secondName: "По батькові"
+        surname: "Прізвище"
+        phoneNumber: "Телефон"
+        photo: "Фото"
+        alias_name: "Псевдонім"
+        friendship: 'Відносини'
+        show_alias_name: "Відображати псевдонім"
+        date_of_birth: "Дата народження"
+        hide_year_of_birth: "Приховати рік народження"
+        gender: "Стать"
+        locale: "Мова інтерфейсу"
+        country: "Країна"
+        city: "Місто"
+        about_me: "Про себе"
+        created: "Профіль створений"
+        updated: "Профіль оновлений"
+        profile_picture: "Аватарка"
+        user: "Користувач"
+        author: "Автор"
+        registered_as: "Зареєстрований як"
+        email: "Email"
+        password: "Пароль"
+        private_info: Інформацію нижче бачити тiльки ви
+    edit:
+        submit: "Оновити"
+        update: "Редагувати профіль"
+        change_password: "Змінити пароль"
+    flash:
+        updated: "Профіль користувача оновлений"
+
+# Password change
+change_password:
+    submit: "Змінити пароль"
+    title: "Змінити пароль"
+    flash:
+        success: "Пароль змінено"
+
+# Registration
+registration:
+    thanks: 'Дякуємо за реєстрацію'
+    agree_to_rule: 'Прочитав і згоден з правилами сайту'
+    check_email: "Лист відправлено на адресу %email%. У ньому міститься посилання, по якому ви можете підтвердити свою реєстрацію."
+    redirect_to_page: Через кілька секунд ви будете перенаправлені на головну сторінку сайту.
+    redirect_in: Ви будете перенаправлені через
+    seconds: секунд
+    confirmed: "Вітаємо %username%, ваш акаунт підтверджений."
+    waiting_for_you: "З нетерпінням чекаємо вас на нашому сайті."
+    back: "Повернутися на попередню сторінку."
+    submit: "Реєстрація"
+    create_user: "Створити користувача"
+    author_warning: 'ВАЖЛИВО !!! На порталі «На Тучке» Ви можете розміщувати тільки ті матеріали, творцем (автором) яких є особисто Ви.'
+    flash:
+        user_created: "Користувач успішно створений"
+    email:
+        subject: "Ласкаво просимо, %username%!"
+        message: |
+            Вітаємо, %username%!
+            Для підтвердження вашої реєстрації, пройдіть по посиланню %confirmationUrl%
+            З найкращими побажаннями, команда сайту.
+
+# Password resetting
+resetting:
+    password_already_requested: "Пароль для даного користувача вже запитували за останні 24 години."
+    check_email: "Лист на адресу %email% вже відправлено. Воно містить посилання, при переході через яке ваш пароль буде скинутий."
+    heading: 'Скинути пароль'
+    request:
+        invalid_username: "Користувач '%username%' не існує."
+        username: "Ім'я користувача / нікнейм:"
+        submit: "Скинути пароль"
+    reset:
+        submit: "Змінити пароль"
+    flash:
+        success: "Пароль успішно скинуто"
+    email:
+        subject: "Скидання пароля"
+        message: |
+            Вітаємо, %username%!
+            Для скидання пароля, будь ласка, перейдіть по посиланню %confirmationUrl%
+            З найкращими побажаннями, команда сайту.
+
+# Global strings
+layout:
+    logout: "Вихід"
+    login: "Вхід"
+    register: "Реєстрація"
+    logged_in_as: "Ви зайшли як %username%"
+
+# Form field labels
+form:
+    group_name: "Назва групи:"
+    username: "Ім'я користувача / нікнейм:"
+    email: "Електронна пошта:"
+    current_password: "Поточний пароль:"
+    password: "Пароль:"
+    password_confirmation: "Підтвердіть пароль:"
+    new_password: "Новий пароль:"
+    new_password_confirmation: "Підтвердіть пароль:"
+
+language:
+    ru: "Російська"
+    ua: "Українськ"
+    
+text:
+    login_page:
+        login: "Логін"
+        login_text: "Ми знову раді вас бачити. Для того щоб отримати доступ до функціоналу сайту, будь ласка, виконайте вхід."
+        registration_text: "Пройшовши реєстрацію на нашому сайті ви зможете додавати ваші твори, коментувати роботи інших християн, спілкуватися і бути частиною спільноти 'На тучке'."
+    registration_page:
+        about_you: "Трохи про вас"
+        login_info: "Дані для логіна"
+        please_fill: "Ми раді тому, що ви вирішили зареєструватися на сайті. Будь ласка, заповніть поля які знходяться нижче."
+    reset_password_page:
+        forgot_pass: "Забули пароль?"
+        text: "Якщо ви зареєстровані на нашому сайті, на вашу пошту буде висланий новий пароль. Якщо буде виводитися повідомлення що такого логіна не існує, то або ви забули логін, або ви не зарєестровані."

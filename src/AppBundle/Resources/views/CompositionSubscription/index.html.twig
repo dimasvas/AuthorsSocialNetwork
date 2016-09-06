@@ -1,0 +1,73 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'subscribtions'}) }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">{{ 'common.my_subscribtions' | trans }}</h1>
+
+    <div class="sap_tabs">
+        <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+            
+            <ul class="resp-tabs-list">
+                <li class="resp-tab-item grid1"  id="update-tab" aria-controls="tab_item-0" role="tab">
+                    <span>{{ 'common.updates' | trans}}</span>
+                </li>
+                <li class="resp-tab-item grid2"  id="subscribtion-tab" aria-controls="tab_item-1" role="tab">
+                    <span>{{ 'common.subscribtions' | trans }}</span>
+                </li>
+                <div class="clear"></div>
+            </ul>
+
+            <div class="resp-tabs-container">
+                <div class="tab-1 resp-tab-content" id="notifications" aria-labelledby="tab_item-0">
+                    <div id="notification-loading" class="updates-loader text-center hidden">&nbsp;</div>
+                    <div id="notification-no-data" class="hidden text-center">{{ 'common.no_updates' | trans }}</div>
+
+                    <table class="table table-hover hidden"> 
+                        <thead> 
+                            <tr> 
+                                <th>{{ 'common.composition' | trans }}</th> 
+                                <th>{{ 'common.author' | trans }}</th> 
+                                <th>{{ 'common.author_comment' | trans}}</th> 
+                                <th>{{ 'common.action' | trans }}</th>
+                            </tr> 
+                        </thead>
+                        <tbody></tbody> 
+                    </table>
+
+                    <div id="notifications-pagination-conatainer" class="text-center"></div>
+                    <div class="clearfix"></div>
+                </div>
+                    
+                <div class="tab-2 resp-tab-content" id="subscribtions" aria-labelledby="tab_item-1">
+                   <div id="subscribtion-loading" class="hidden subscribtion-loader text-center">&nbsp;</div>
+                    <div id="subscribtion-no-data" class="text-center hidden">{{ 'common.no_subscribtions' | trans }}</div>
+                    <table class="table table-hover hidden">
+                        <thead>
+                            <tr>
+                                <th>{{ 'common.composition' | trans }}</th>
+                                <th>{{ 'common.action' | trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div id="subscribtion-pagination-conatainer" class="text-center"></div>
+                </div> 
+            </div>
+        </div> 
+    </div> 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts output='js/subscribtion.js'
+        '@AppBundle/Resources/public/js/subscribtion.js' 
+        '@AppBundle/Resources/public/js/plugins/tabs.js'   
+    
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% if entity.type.content %}
+    <div id="type-wrapper" class="well white-bg">
+        <div class="col-lg-12 col-lg-offset-3">
+            {{ entity.type.content | raw}}
+        </div>
+            <div class="clearfix"></div>
+    </div>
+{% endif %}

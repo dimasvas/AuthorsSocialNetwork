@@ -1,0 +1,40 @@
+{% extends 'one_column.html.twig' %}
+
+{% block seo %}
+    {{ include('::include/seo.html.twig', {'page': 'comosition_type', 'title': composition.title, 'type' : composition.category.name }) }}
+{% endblock %}
+
+{% block content %}
+    <div class="book-page content-page">
+        <h1 class="text-center"><span>{{('category.' ~ composition.category.alias) | trans }}</span> "{{ composition.title }}"</h1>
+
+        <div class="content-summary">
+            <b>{{('category.' ~ composition.category.alias) | trans }}:</b>&nbsp;&nbsp;  
+            <a href="{{ path('composition_show', { 'id': composition.id }) }}">{{ composition.title }}</a>,
+            <span>
+                <b>{{ 'common.author' | trans }}:</b>&nbsp;&nbsp;  
+                <a href="{{ path('author_show', {id: composition.user.id})}}">
+                        {{ composition.author.user.name}} {{ composition.author.user.surname}}
+                </a>
+            </span>
+        </div>
+        <div class="text-content well white-bg">
+            {% if text == false %}
+                <div class="text-center">{{ 'common.no_text' | trans }}</div>
+            {% else %}    
+                {{ text | raw }}
+            {% endif %}
+        </div>
+        
+        <div class="text-center pagination-wrapper">
+            {% include '::pagination/pagination.html.twig' with {
+                currentFilters: {id: composition.id},
+                currentPage: currentPage,
+                paginationPath: 'composition_type_show',
+                lastPage: entity.pages,
+                showAlwaysFirstAndLast: true
+            } only %}
+        </div>
+    </div>
+
+{% endblock %}
